@@ -1,6 +1,7 @@
 package epsi.fx.com.simplecalendarproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -37,8 +38,11 @@ public class EventListActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
-                EventListActivity.this.startActivity(intent);
+//                Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
+//                EventListActivity.this.startActivity(intent);
+
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=nantes"));
+                EventListActivity.this.startActivity(intent1);
             }
         });
     }
