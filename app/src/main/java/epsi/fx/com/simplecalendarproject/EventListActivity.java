@@ -1,5 +1,6 @@
 package epsi.fx.com.simplecalendarproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,13 +37,8 @@ public class EventListActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                adapter.add(Integer.toString(count++));
-
-                 /* Ou bien
-                dataList.add(Integer.toString(count++));
-                adapter.notifyDataSetChanged();
-                */
+                Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
+                EventListActivity.this.startActivity(intent);
             }
         });
     }
