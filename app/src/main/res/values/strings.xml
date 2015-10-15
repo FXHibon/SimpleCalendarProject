@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Simple Calendar</string>
+    <string name="eventDetailTitle">Titre</string>
+    <string name="eventDetailsDescription">Description</string>
 </resources>
