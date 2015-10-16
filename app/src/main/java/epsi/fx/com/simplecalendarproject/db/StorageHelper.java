@@ -11,28 +11,29 @@ import android.util.Log;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 4;
+    public static final String TABLE_NAME = "events";
+    public static final int DB_VERSION = 1;
 
     public StorageHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    public StorageHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_EVENTS_TABLE = "CREATE TABLE EVENTS " +
-                "(id INTEGER PRIMARY KEY, " +
+        Log.i("SQL", DB_NAME + " db creation");
+        String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+                "id INTEGER PRIMARY KEY, " +
                 "title TEXT, " +
-                "description TEXT)";
+                "description TEXT, " +
+                "date TEXT)";
         db.execSQL(CREATE_EVENTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("sql", "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
-//        db.execSQL("DELETE FROM EVENTS WHERE 1 = 1");
+        Log.i("SQL", "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
+        Log.i("SQL", "resetting db");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
     }
 }
