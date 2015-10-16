@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_event_btn"
-        android:id="@+id/add_event_btn" />
+        android:id="@+id/add_event_btn"
+        android:onClick="onClickAddEvent" />
 
     <ListView
         android:layout_width="match_parent"

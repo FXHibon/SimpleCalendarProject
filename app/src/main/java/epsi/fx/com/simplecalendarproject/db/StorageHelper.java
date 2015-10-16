@@ -1,4 +1,4 @@
-package epsi.fx.com.simplecalendarproject;
+package epsi.fx.com.simplecalendarproject.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +11,7 @@ import android.util.Log;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
 
     public StorageHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,10 +32,7 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        int currentVersion = oldVersion;
-        Log.d("sql", "onUpgrade");
-        Log.d("sql", "upgrading");
-        db.execSQL("ALTER TABLE EVENTS ADD date_begin TEXT");
-        db.execSQL("ALTER TABLE EVENTS ADD date_end TEXT");
+        Log.d("sql", "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
+//        db.execSQL("DELETE FROM EVENTS WHERE 1 = 1");
     }
 }
