@@ -2,5 +2,11 @@
     <string name="app_name">Simple Calendar</string>
     <string name="eventDetailTitle">Titre</string>
     <string name="eventDetailsDescription">Description</string>
-    <string name="add_event_btn">Add Event</string>
+    <string name="event_list_add">Add Event</string>
+    <string name="event_form_title_hint">Titre</string>
+    <string name="event_form_desc_hint">Description</string>
+    <string name="event_form_date_hint">Date début</string>
+    <string name="event_form_cancel_hint">Annuler</string>
+    <string name="event_form_ok_hint">Ok</string>
+    <string name="event_list_refresh">Refresh</string>
 </resources>

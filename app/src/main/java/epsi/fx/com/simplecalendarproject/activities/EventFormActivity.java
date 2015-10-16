@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import epsi.fx.com.simplecalendarproject.R;
@@ -13,46 +12,41 @@ import epsi.fx.com.simplecalendarproject.db.EventDao;
 
 public class EventFormActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE = 1;
+    private EventDao mEventDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Init view
         setContentView(R.layout.event_form);
 
-        getIntent();
+        // Init field
+        mEventDao = new EventDao(this);
+    }
 
-        final EventDao eventDao = new EventDao(this);
+    public void onClickOk(View view) {
+        Event event = new Event();
 
-        Button btnCancel = (Button) findViewById(R.id.event_form_cancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                setResult(0, intent);
-                EventFormActivity.this.finish();
-            }
-        });
+        TextView title = (TextView) findViewById(R.id.event_form_title);
+        TextView desc = (TextView) findViewById(R.id.event_form_desc);
+        TextView date = (TextView) findViewById(R.id.event_form_date);
 
-        Button btnValidate = (Button) findViewById(R.id.event_form_validate);
-        btnValidate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        event.setTitle(title.getText().toString());
+        event.setDesc(desc.getText().toString());
+        event.setDate(date.getText().toString());
 
-                Event event = new Event();
+        mEventDao.insertEvent(event);
 
-                TextView title = (TextView) findViewById(R.id.event_form_title);
-                TextView desc = (TextView) findViewById(R.id.event_form_desc);
-                TextView date = (TextView) findViewById(R.id.event_form_date);
+        Intent intent = new Intent();
+        setResult(EventFormActivity.RESULT_OK, intent);
+        EventFormActivity.this.finish();
+    }
 
-                event.setTitle(title.getText().toString());
-                event.setDesc(desc.getText().toString());
-                event.setDate(date.getText().toString());
-
-                eventDao.insertEvent(event);
-
-                Intent intent = new Intent();
-                setResult(1, intent);
-                EventFormActivity.this.finish();
-            }
-        });
+    public void onClickCancel(View view) {
+        Intent intent = new Intent();
+        setResult(EventFormActivity.RESULT_CANCELED, intent);
+        EventFormActivity.this.finish();
     }
 }

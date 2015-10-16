@@ -16,16 +16,16 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/add_event_btn"
-            android:id="@+id/add_event_btn"
+            android:text="@string/event_list_add"
+            android:id="@+id/event_list_add_btn"
             android:onClick="onClickAddEvent" />
 
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Refresh"
-            android:id="@+id/button"
+            android:text="@string/event_list_refresh"
+            android:id="@+id/event_list_refresh_btn"
             android:onClick="refreshData" />
     </LinearLayout>
 

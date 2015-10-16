@@ -13,15 +13,23 @@ import epsi.fx.com.simplecalendarproject.db.EventDao;
 
 public class EventListActivity extends AppCompatActivity {
 
-    private ListView list;
+    public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
+    public static final String TAG = "result";
+    private ListView mList;
     private EventDao mEventDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Init view
         setContentView(R.layout.event_list);
-        this.list = (ListView) findViewById(R.id.event_list_view);
+
+        // Init fields
+        this.mList = (ListView) findViewById(R.id.event_list_view);
         mEventDao = new EventDao(this);
+
+        // Init data
         refreshData();
     }
 
@@ -30,9 +38,14 @@ public class EventListActivity extends AppCompatActivity {
      */
     private void refreshData() {
         EventItemAdapter eventItemAdapter = new EventItemAdapter(this, mEventDao.getEvents());
-        list.setAdapter(eventItemAdapter);
+        mList.setAdapter(eventItemAdapter);
     }
 
+    /**
+     * listener for "refresh" button
+     *
+     * @param v Useless here
+     */
     public void refreshData(View v) {
         refreshData();
     }
@@ -41,18 +54,18 @@ public class EventListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                Log.d("result", "new event, refreshing list");
+        if (requestCode == EventFormActivity.REQUEST_CODE) {
+            if (resultCode == EventFormActivity.RESULT_OK) {
+                Log.d(TAG, "new event, refreshing list");
                 refreshData();
-            } else if (resultCode == 0) {
-                Log.d("result", "operation cancelled");
+            } else if (resultCode == EventFormActivity.RESULT_CANCELED) {
+                Log.d(TAG, "operation cancelled");
             }
         }
     }
 
     public void onClickAddEvent(View view) {
         Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
-        this.startActivityForResult(intent, 1);
+        this.startActivityForResult(intent, EVENT_FORM_ACTIVITY_REQUEST_CODE);
     }
 }
