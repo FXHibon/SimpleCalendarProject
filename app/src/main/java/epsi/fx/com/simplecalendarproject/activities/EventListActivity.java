@@ -14,7 +14,7 @@ import epsi.fx.com.simplecalendarproject.db.EventDao;
 public class EventListActivity extends AppCompatActivity {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
-    public static final String TAG = "result";
+    public static final String TAG = EventListActivity.class.getName();
     private ListView mList;
     private EventDao mEventDao;
 

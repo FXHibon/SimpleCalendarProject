@@ -16,6 +16,7 @@ import epsi.fx.com.simplecalendarproject.beans.Event;
  */
 public class EventDao {
 
+    public static final String TAG = EventDao.class.getName();
     private final StorageHelper mStorageHelper;
 
     public EventDao(Context context) {
@@ -43,7 +44,7 @@ public class EventDao {
         c.close();
         db.close();
 
-        Log.i("DAO", "returning " + events.size() + " events");
+        Log.i(TAG, "returning " + events.size() + " events");
 
         return events;
     }
@@ -55,7 +56,7 @@ public class EventDao {
         valuesDb.put("description", event.getDesc());
         valuesDb.put("date", event.getDate());
         db.insert("Events", null, valuesDb);
-        Log.i("DAO", event.toString() + " inserted");
+        Log.i(TAG, event.toString() + " inserted");
         db.close();
     }
 }

@@ -13,6 +13,7 @@ public class StorageHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "events";
     public static final String TABLE_NAME = "events";
     public static final int DB_VERSION = 1;
+    public static final String TAG = EventDao.class.getName();
 
     public StorageHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -20,7 +21,7 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("SQL", DB_NAME + " db creation");
+        Log.i(TAG, DB_NAME + " db creation");
         String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 "id INTEGER PRIMARY KEY, " +
                 "title TEXT, " +
@@ -31,8 +32,8 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("SQL", "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
-        Log.i("SQL", "resetting db");
+        Log.i(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
+        Log.i(TAG, "resetting db");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
