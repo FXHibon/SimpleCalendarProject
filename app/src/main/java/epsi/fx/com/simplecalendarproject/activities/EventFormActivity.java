@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
@@ -36,8 +38,10 @@ public class EventFormActivity extends AppCompatActivity {
 
         event.setTitle(title.getText().toString());
         event.setDesc(desc.getText().toString());
-        event.setDateBegin(dateBegin.getText().toString());
-        event.setDateEnd(dateEnd.getText().toString());
+        event.setDateBegin(DateTime.now());
+        event.setDateEnd(DateTime.now());
+//        event.setDateBegin(dateBegin.getText().toString());
+//        event.setDateEnd(dateEnd.getText().toString());
         event.setAuthor("FX");
 
         mEventDao.insertEvent(event);

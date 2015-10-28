@@ -1,5 +1,7 @@
 package epsi.fx.com.simplecalendarproject.beans;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by fx on 16/10/2015.
  */
@@ -9,8 +11,8 @@ public class Event {
     private String title;
     private String desc;
     private String author;
-    private String dateBegin;
-    private String dateEnd;
+    private DateTime dateBegin;
+    private DateTime dateEnd;
 
     public Event() {
 
@@ -32,19 +34,19 @@ public class Event {
         this.desc = desc;
     }
 
-    public String getDateEnd() {
+    public DateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(String dateEnd) {
+    public void setDateEnd(DateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 
-    public String getDateBegin() {
+    public DateTime getDateBegin() {
         return dateBegin;
     }
 
-    public void setDateBegin(String dateBegin) {
+    public void setDateBegin(DateTime dateBegin) {
         this.dateBegin = dateBegin;
     }
 

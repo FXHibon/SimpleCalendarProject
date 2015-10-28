@@ -33,6 +33,7 @@ public class UserFormActivity extends AppCompatActivity {
         User user = new User();
         user.setEmail(email.getText().toString());
         user.setName(name.getText().toString());
+
         mUserDao.insertUser(user);
     }
 

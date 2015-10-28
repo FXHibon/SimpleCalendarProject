@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.EventDetailActivity" />
-        <activity android:name=".activities.EventFormActivity"></activity>
+        <activity android:name=".activities.EventFormActivity" />
         <activity android:name=".activities.UserFormActivity">
         </activity>
     </application>

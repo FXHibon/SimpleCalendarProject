@@ -60,7 +60,7 @@ public class EventItemAdapter extends BaseAdapter {
 
         tvTitle.setText(event.getTitle());
         tvDesc.setText(event.getDesc());
-        tvDate.setText(event.getDateBegin());
+        tvDate.setText(event.getDateBegin().toString());
         tvAuthor.setText(event.getAuthor());
 
         return convertView;

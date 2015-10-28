@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -62,8 +64,8 @@ public class EventDao {
         event.setTitle(cursor.getString(cursor.getColumnIndex("title")));
         event.setDesc(cursor.getString(cursor.getColumnIndex("description")));
         event.setAuthor(cursor.getString(cursor.getColumnIndex("author")));
-        event.setDateBegin(cursor.getString(cursor.getColumnIndex("date_begin")));
-        event.setDateEnd(cursor.getString(cursor.getColumnIndex("date_end")));
+        event.setDateBegin(DateTime.parse(cursor.getString(cursor.getColumnIndex("date_begin"))));
+        event.setDateEnd(DateTime.parse(cursor.getString(cursor.getColumnIndex("date_end"))));
         return event;
     }
 
@@ -95,8 +97,8 @@ public class EventDao {
         valuesDb.put("title", event.getTitle());
         valuesDb.put("description", event.getDesc());
         valuesDb.put("author", event.getAuthor());
-        valuesDb.put("date_begin", event.getDateBegin());
-        valuesDb.put("date_end", event.getDateEnd());
+        valuesDb.put("date_begin", event.getDateBegin().toString());
+        valuesDb.put("date_end", event.getDateEnd().toString());
 
         db.insert(StorageHelper.EVENT_TABLE_NAME, null, valuesDb);
 
