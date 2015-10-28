@@ -10,4 +10,6 @@
     <string name="event_form_cancel_hint">Annuler</string>
     <string name="event_form_ok_hint">Ok</string>
     <string name="event_list_refresh">Refresh</string>
+    <string name="user_form_name">Name</string>
+    <string name="user_form_email">Email</string>
 </resources>

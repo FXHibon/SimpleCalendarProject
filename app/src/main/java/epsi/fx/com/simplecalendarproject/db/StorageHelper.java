@@ -13,7 +13,7 @@ import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
     public static final String TAG = EventDao.class.getName();
 
     public static final String USER_TABLE_NAME = "users";

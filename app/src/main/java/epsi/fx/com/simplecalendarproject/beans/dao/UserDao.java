@@ -54,7 +54,7 @@ public class UserDao {
      * @param cursor
      * @return
      */
-    private User parseUser(Cursor cursor) {
+    public static User parseUser(Cursor cursor) {
         User user;
         user = new User();
         user.setId(cursor.getString(cursor.getColumnIndex("id")));
@@ -71,7 +71,9 @@ public class UserDao {
         if (c.getCount() == 1) {
             c.moveToFirst();
             user = parseUser(c);
+            c.close();
         }
+        db.close();
         return user;
     }
 
@@ -99,5 +101,16 @@ public class UserDao {
 
     public void updateUser(User user) {
         insertUser(user, true);
+    }
+
+    public boolean hasUsers() {
+        SQLiteDatabase db = mStorageHelper.getReadableDatabase();
+
+        boolean ret;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + StorageHelper.USER_TABLE_NAME, null);
+        ret = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return ret;
     }
 }

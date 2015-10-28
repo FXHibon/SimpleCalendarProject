@@ -10,6 +10,7 @@ import android.widget.ListView;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
+import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
 
 public class EventListActivity extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class EventListActivity extends AppCompatActivity {
     public static final String TAG = EventListActivity.class.getName();
     private ListView mList;
     private EventDao mEventDao;
+    private UserDao mUserDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class EventListActivity extends AppCompatActivity {
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);
         mEventDao = new EventDao(this);
+        mUserDao = new UserDao(this);
 
         // Init data
         refreshData();
@@ -67,5 +70,14 @@ public class EventListActivity extends AppCompatActivity {
     public void onClickAddEvent(View view) {
         Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
         this.startActivityForResult(intent, EVENT_FORM_ACTIVITY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!mUserDao.hasUsers()) {
+            Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
+            startActivity(intent);
+        }
     }
 }
