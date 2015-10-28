@@ -13,13 +13,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.List;
 
 import epsi.fx.com.simplecalendarproject.R;
+import epsi.fx.com.simplecalendarproject.WebService;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
+import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class EventListActivity extends AppCompatActivity {
 
@@ -52,13 +55,16 @@ public class EventListActivity extends AppCompatActivity {
         AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
+
                 try {
-                    URL url = new URL("http://fxhibon.fr");
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.connect();
-                    Log.d(TAG, "Response code = " + con.getResponseCode());
-                } catch (java.io.IOException e) {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://epsi5-android.cleverapps.io")
+                            .build();
+
+                    WebService ws = retrofit.create(WebService.class);
+                    Response<List<Event>> events = ws.listEvents().execute();
+                    Log.d(TAG, "Response code = " + events.code());
+                } catch (Exception e) {
                     Log.wtf(TAG, e);
                 }
                 return null;

@@ -1,0 +1,14 @@
+GET /meetings
+POST
+GET /meetings/:id
+POST
+POST /meetings/:id/accept
+POST /meetings/:id/deny
+POST /meetings/:id/invite
+POST /users
+GET /users/search/:text
+POST /logout
+POST /login      =>  {email: "?", password: "?"}
+
+user {id: text, name: text, email: text}
+meeting {id: text, author: text, description: text, title: text, begin: text, end: text, participants: [{id: text, status: <present, absent, unknown>}]}
