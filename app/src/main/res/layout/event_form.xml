@@ -28,8 +28,16 @@
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:id="@+id/event_form_date"
-        android:hint="@string/event_form_date_hint" />
+        android:id="@+id/event_form_date_begin"
+        android:hint="@string/event_form_date_begin_hint" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/event_form_date_end"
+        android:hint="@string/event_form_date_end_hint" />
 
     <LinearLayout
         android:orientation="horizontal"

@@ -31,11 +31,13 @@ public class EventFormActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.event_form_title);
         TextView desc = (TextView) findViewById(R.id.event_form_desc);
-        TextView date = (TextView) findViewById(R.id.event_form_date);
+        TextView dateBegin = (TextView) findViewById(R.id.event_form_date_begin);
+        TextView dateEnd = (TextView) findViewById(R.id.event_form_date_end);
 
         event.setTitle(title.getText().toString());
         event.setDesc(desc.getText().toString());
-        event.setDate(date.getText().toString());
+        event.setDateBegin(dateBegin.getText().toString());
+        event.setDateEnd(dateEnd.getText().toString());
 
         mEventDao.insertEvent(event);
 

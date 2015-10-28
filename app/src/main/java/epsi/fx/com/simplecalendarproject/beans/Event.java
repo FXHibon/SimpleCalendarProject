@@ -7,7 +7,8 @@ public class Event {
 
     private String title;
     private String desc;
-    private String date;
+    private String dateBegin;
+    private String dateEnd;
 
     public Event() {
 
@@ -29,20 +30,19 @@ public class Event {
         this.desc = desc;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateEnd() {
+        return dateEnd;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
-                ", date='" + date + '\'' +
-                '}';
+    public String getDateBegin() {
+        return dateBegin;
+    }
+
+    public void setDateBegin(String dateBegin) {
+        this.dateBegin = dateBegin;
     }
 }

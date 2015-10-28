@@ -5,7 +5,8 @@
     <string name="event_list_add">Add Event</string>
     <string name="event_form_title_hint">Titre</string>
     <string name="event_form_desc_hint">Description</string>
-    <string name="event_form_date_hint">Date début</string>
+    <string name="event_form_date_begin_hint">Date début</string>
+    <string name="event_form_date_end_hint">Date fin</string>
     <string name="event_form_cancel_hint">Annuler</string>
     <string name="event_form_ok_hint">Ok</string>
     <string name="event_list_refresh">Refresh</string>

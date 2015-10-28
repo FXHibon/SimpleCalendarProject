@@ -26,7 +26,7 @@ public class EventDao {
     public List<Event> getEvents() {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT title, description, date FROM events", null);
+        Cursor c = db.rawQuery("SELECT title, description, date_begin, date_end FROM events", null);
 
         List<Event> events = new ArrayList<Event>();
 
@@ -37,7 +37,9 @@ public class EventDao {
                 event = new Event();
                 event.setTitle(c.getString(c.getColumnIndex("title")));
                 event.setDesc(c.getString(c.getColumnIndex("description")));
-                event.setDate(c.getString(c.getColumnIndex("date")));
+                event.setDateBegin(c.getString(c.getColumnIndex("date_begin")));
+                event.setDateEnd(c.getString(c.getColumnIndex("date_end")));
+                ;
                 events.add(event);
             } while (c.moveToNext());
         }
@@ -54,7 +56,8 @@ public class EventDao {
         ContentValues valuesDb = new ContentValues();
         valuesDb.put("title", event.getTitle());
         valuesDb.put("description", event.getDesc());
-        valuesDb.put("date", event.getDate());
+        valuesDb.put("date_begin", event.getDateBegin());
+        valuesDb.put("date_end", event.getDateEnd());
         db.insert("Events", null, valuesDb);
         Log.i(TAG, event.toString() + " inserted");
         db.close();
