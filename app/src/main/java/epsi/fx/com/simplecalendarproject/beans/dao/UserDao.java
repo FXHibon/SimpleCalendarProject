@@ -77,7 +77,7 @@ public class UserDao {
         return user;
     }
 
-    private void insertUser(User user, boolean update) {
+    private String insertUser(User user, boolean update) {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
         ContentValues valuesDb = new ContentValues();
 
@@ -86,6 +86,7 @@ public class UserDao {
         } else {
             valuesDb.put("id", UUID.randomUUID().toString());
         }
+        String id = valuesDb.get("id").toString();
         valuesDb.put("name", user.getName());
         valuesDb.put("email", user.getEmail());
 
@@ -93,14 +94,15 @@ public class UserDao {
 
         Log.i(TAG, user.toString() + " inserted");
         db.close();
+        return id;
     }
 
-    public void insertUser(User user) {
-        insertUser(user, false);
+    public String insertUser(User user) {
+        return insertUser(user, false);
     }
 
-    public void updateUser(User user) {
-        insertUser(user, true);
+    public String updateUser(User user) {
+        return insertUser(user, true);
     }
 
     public boolean hasUsers() {

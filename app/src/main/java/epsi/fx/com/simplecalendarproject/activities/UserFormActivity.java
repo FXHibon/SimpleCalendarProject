@@ -1,5 +1,7 @@
 package epsi.fx.com.simplecalendarproject.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,7 +36,14 @@ public class UserFormActivity extends AppCompatActivity {
         user.setEmail(email.getText().toString());
         user.setName(name.getText().toString());
 
-        mUserDao.insertUser(user);
+        String id = mUserDao.insertUser(user);
+
+        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        if (prefs.getString("currentUserId", "").equals("")) {
+            SharedPreferences.Editor ed = prefs.edit();
+            ed.putString("currentUserId", id);
+            ed.apply();
+        }
     }
 
     public void onClickCancel(View view) {

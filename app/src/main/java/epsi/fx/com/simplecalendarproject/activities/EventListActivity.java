@@ -1,6 +1,8 @@
 package epsi.fx.com.simplecalendarproject.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +18,7 @@ public class EventListActivity extends AppCompatActivity {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
     public static final String TAG = EventListActivity.class.getName();
+    public static final String SIMPLE_CALENDAR_EPSI = "SimpleCalendarEpsi";
     private ListView mList;
     private EventDao mEventDao;
     private UserDao mUserDao;
@@ -75,7 +78,9 @@ public class EventListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mUserDao.hasUsers()) {
+        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+
+        if (prefs.getString("currentUserId", "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
         }
