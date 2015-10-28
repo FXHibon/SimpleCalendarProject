@@ -21,6 +21,7 @@ import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
+import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -59,6 +60,7 @@ public class EventListActivity extends AppCompatActivity {
                 try {
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://epsi5-android.cleverapps.io")
+                            .addConverterFactory(GsonConverterFactory.create())
                             .build();
 
                     WebService ws = retrofit.create(WebService.class);
