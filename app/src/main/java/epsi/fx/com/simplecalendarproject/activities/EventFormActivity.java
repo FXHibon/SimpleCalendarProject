@@ -38,6 +38,7 @@ public class EventFormActivity extends AppCompatActivity {
         event.setDesc(desc.getText().toString());
         event.setDateBegin(dateBegin.getText().toString());
         event.setDateEnd(dateEnd.getText().toString());
+        event.setAuthor("FX");
 
         mEventDao.insertEvent(event);
 

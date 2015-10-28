@@ -7,6 +7,7 @@ public class Event {
 
     private String title;
     private String desc;
+    private String author;
     private String dateBegin;
     private String dateEnd;
 
@@ -44,5 +45,24 @@ public class Event {
 
     public void setDateBegin(String dateBegin) {
         this.dateBegin = dateBegin;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", author='" + author + '\'' +
+                ", dateBegin='" + dateBegin + '\'' +
+                ", dateEnd='" + dateEnd + '\'' +
+                '}';
     }
 }

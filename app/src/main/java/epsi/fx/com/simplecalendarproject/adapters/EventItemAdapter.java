@@ -50,6 +50,7 @@ public class EventItemAdapter extends BaseAdapter {
         TextView tvTitle = (TextView) convertView.findViewById(R.id.event_item_title);
         TextView tvDesc = (TextView) convertView.findViewById(R.id.event_item_desc);
         TextView tvDate = (TextView) convertView.findViewById(R.id.event_item_date);
+        TextView tvAuthor = (TextView) convertView.findViewById(R.id.event_item_author);
 
         Event event = (Event) getItem(position);
 
@@ -60,6 +61,7 @@ public class EventItemAdapter extends BaseAdapter {
         tvTitle.setText(event.getTitle());
         tvDesc.setText(event.getDesc());
         tvDate.setText(event.getDateBegin());
+        tvAuthor.setText(event.getAuthor());
 
         return convertView;
     }
