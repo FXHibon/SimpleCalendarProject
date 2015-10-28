@@ -28,7 +28,7 @@ public class UserDao {
     public List<User> getUsers() {
         SQLiteDatabase db = mStorageHelper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT id, name, email FROM users", null);
+        Cursor c = db.rawQuery("SELECT * FROM users", null);
 
         List<User> users = new ArrayList<User>();
 
@@ -57,16 +57,16 @@ public class UserDao {
     public static User parseUser(Cursor cursor) {
         User user;
         user = new User();
-        user.setId(cursor.getString(cursor.getColumnIndex("id")));
-        user.setName(cursor.getString(cursor.getColumnIndex("name")));
-        user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+        user.setId(cursor.getString(cursor.getColumnIndex(User.ID)));
+        user.setName(cursor.getString(cursor.getColumnIndex(User.NAME)));
+        user.setEmail(cursor.getString(cursor.getColumnIndex(User.EMAIL)));
         return user;
     }
 
     public User getUserById(String id) {
         SQLiteDatabase db = mStorageHelper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT id, name, email FROM " + StorageHelper.USER_TABLE_NAME + " WHERE id = '" + id + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM " + User.USER_TABLE_NAME + " WHERE id = '" + id + "'", null);
         User user = null;
         if (c.getCount() == 1) {
             c.moveToFirst();
@@ -82,15 +82,15 @@ public class UserDao {
         ContentValues valuesDb = new ContentValues();
 
         if (update) {
-            valuesDb.put("id", user.getId());
+            valuesDb.put(User.ID, user.getId());
         } else {
-            valuesDb.put("id", UUID.randomUUID().toString());
+            valuesDb.put(User.ID, UUID.randomUUID().toString());
         }
-        String id = valuesDb.get("id").toString();
-        valuesDb.put("name", user.getName());
-        valuesDb.put("email", user.getEmail());
+        String id = valuesDb.get(User.ID).toString();
+        valuesDb.put(User.NAME, user.getName());
+        valuesDb.put(User.EMAIL, user.getEmail());
 
-        db.insert(StorageHelper.USER_TABLE_NAME, null, valuesDb);
+        db.insert(User.USER_TABLE_NAME, null, valuesDb);
 
         Log.i(TAG, user.toString() + " inserted");
         db.close();
@@ -103,16 +103,5 @@ public class UserDao {
 
     public String updateUser(User user) {
         return insertUser(user, true);
-    }
-
-    public boolean hasUsers() {
-        SQLiteDatabase db = mStorageHelper.getReadableDatabase();
-
-        boolean ret;
-        Cursor cursor = db.rawQuery("SELECT * FROM " + StorageHelper.USER_TABLE_NAME, null);
-        ret = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return ret;
     }
 }
