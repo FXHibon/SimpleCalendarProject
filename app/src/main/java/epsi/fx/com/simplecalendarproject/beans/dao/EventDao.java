@@ -107,4 +107,22 @@ public class EventDao {
     public void insertEvent(Event event) {
         insertEvent(event, false);
     }
+
+    public List<Event> getEventByAuthor(String id) {
+        SQLiteDatabase db = mStorageHelper.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT title, description, author, date_begin, date_end FROM " + StorageHelper.EVENT_TABLE_NAME + " WHERE author = '" + id + "'", null);
+
+        List<Event> events = new ArrayList<Event>();
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            Event event;
+            do {
+                event = parseEvent(c);
+                events.add(event);
+            } while (c.moveToNext());
+        }
+
+        return events;
+    }
 }
