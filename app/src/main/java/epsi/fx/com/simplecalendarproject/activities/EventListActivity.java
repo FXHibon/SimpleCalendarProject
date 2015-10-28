@@ -3,11 +3,18 @@ package epsi.fx.com.simplecalendarproject.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
@@ -34,6 +41,31 @@ public class EventListActivity extends AppCompatActivity {
         this.mList = (ListView) findViewById(R.id.event_list_view);
         mEventDao = new EventDao(this);
         mUserDao = new UserDao(this);
+
+        // Internet Access
+        ConnectivityManager mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = mgr.getActiveNetworkInfo();
+        if (activeNetworkInfo.isConnected()) {
+            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+        }
+
+        AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://fxhibon.fr");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    con.connect();
+                    Log.d(TAG, "Response code = " + con.getResponseCode());
+                } catch (java.io.IOException e) {
+                    Log.wtf(TAG, e);
+                }
+                return null;
+            }
+        };
+
+        asyncTask.execute();
 
         // Init data
         refreshData();

@@ -1,6 +1,8 @@
 package epsi.fx.com.simplecalendarproject.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -42,7 +44,9 @@ public class EventFormActivity extends AppCompatActivity {
         event.setDateEnd(DateTime.now());
 //        event.setDateBegin(dateBegin.getText().toString());
 //        event.setDateEnd(dateEnd.getText().toString());
-        event.setAuthor("FX");
+        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+
+        event.setAuthor(prefs.getString("currentUserId", ""));
 
         mEventDao.insertEvent(event);
 
