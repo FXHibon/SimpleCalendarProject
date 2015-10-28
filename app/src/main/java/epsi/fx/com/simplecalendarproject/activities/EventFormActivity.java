@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
-import epsi.fx.com.simplecalendarproject.db.EventDao;
+import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 
 public class EventFormActivity extends AppCompatActivity {
 

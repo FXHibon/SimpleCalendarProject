@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
+
 /**
  * Created by fx on 15/10/2015.
  */

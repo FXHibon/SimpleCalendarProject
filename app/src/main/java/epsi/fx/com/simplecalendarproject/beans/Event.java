@@ -5,6 +5,7 @@ package epsi.fx.com.simplecalendarproject.beans;
  */
 public class Event {
 
+    private String id;
     private String title;
     private String desc;
     private String author;
@@ -55,10 +56,19 @@ public class Event {
         this.author = author;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", desc='" + desc + '\'' +
                 ", author='" + author + '\'' +
                 ", dateBegin='" + dateBegin + '\'' +

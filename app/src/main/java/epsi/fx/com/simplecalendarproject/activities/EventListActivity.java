@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
-import epsi.fx.com.simplecalendarproject.db.EventDao;
+import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 
 public class EventListActivity extends AppCompatActivity {
 
