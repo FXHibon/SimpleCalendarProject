@@ -1,4 +1,4 @@
-package epsi.fx.com.simplecalendarproject;
+package epsi.fx.com.simplecalendarproject.ws;
 
 
 import java.util.List;
@@ -20,5 +20,6 @@ public interface WebService {
 
     @POST("/users")
     Call<Void> register(@Body User u);
+
 
 }

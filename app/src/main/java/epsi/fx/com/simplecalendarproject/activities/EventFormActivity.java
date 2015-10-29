@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
+import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
@@ -44,9 +45,9 @@ public class EventFormActivity extends AppCompatActivity {
         event.setDateEnd(DateTime.now());
 //        event.setDateBegin(dateBegin.getText().toString());
 //        event.setDateEnd(dateEnd.getText().toString());
-        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
 
-        event.setAuthor(prefs.getString("currentUserId", ""));
+        event.setAuthor(prefs.getString(Common.CURRENT_USER_ID, ""));
 
         mEventDao.insertEvent(event);
 

@@ -1,4 +1,4 @@
-package epsi.fx.com.simplecalendarproject.ws;
+package epsi.fx.com.simplecalendarproject.ws.interceptors;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
+import epsi.fx.com.simplecalendarproject.Common;
 
 /**
  * Created by fx on 29/10/2015.
@@ -36,7 +38,7 @@ public class SetCookiesInterceptor implements Interceptor {
                 cookies.add(cookie);
                 Log.v(TAG, "Setting cookie: " + cookie);
             }
-            SharedPreferences.Editor simpleCalendar = mContext.getSharedPreferences("SimpleCalendar", Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor simpleCalendar = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE).edit();
             simpleCalendar.putStringSet("cookies", cookies).apply();
         }
 

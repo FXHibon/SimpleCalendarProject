@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.User;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
@@ -38,10 +39,10 @@ public class UserFormActivity extends AppCompatActivity {
 
         String id = mUserDao.insertUser(user);
 
-        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
-        if (prefs.getString("currentUserId", "").equals("")) {
+        SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        if (prefs.getString(Common.CURRENT_USER_ID, "").equals("")) {
             SharedPreferences.Editor ed = prefs.edit();
-            ed.putString("currentUserId", id);
+            ed.putString(Common.CURRENT_USER_ID, id);
             ed.apply();
         }
     }

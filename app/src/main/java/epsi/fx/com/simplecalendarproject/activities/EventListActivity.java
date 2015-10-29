@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
-import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
 import epsi.fx.com.simplecalendarproject.ws.ApiClient;
 import retrofit.Callback;
 import retrofit.Response;
@@ -25,10 +25,8 @@ public class EventListActivity extends AppCompatActivity {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
     public static final String TAG = EventListActivity.class.getName();
-    public static final String SIMPLE_CALENDAR_EPSI = "SimpleCalendarEpsi";
     private ListView mList;
     private EventDao mEventDao;
-    private UserDao mUserDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,6 @@ public class EventListActivity extends AppCompatActivity {
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);
         mEventDao = new EventDao(this);
-        mUserDao = new UserDao(this);
 
         // Internet Access
         ConnectivityManager mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -107,9 +104,9 @@ public class EventListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = getSharedPreferences(EventListActivity.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
 
-        if (prefs.getString("currentUserId", "").equals("")) {
+        if (prefs.getString(Common.CURRENT_USER_ID, "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
         }

@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.squareup.okhttp.OkHttpClient;
 
-import epsi.fx.com.simplecalendarproject.WebService;
 import epsi.fx.com.simplecalendarproject.beans.User;
+import epsi.fx.com.simplecalendarproject.ws.interceptors.AddCookiesInterceptor;
+import epsi.fx.com.simplecalendarproject.ws.interceptors.SetCookiesInterceptor;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 

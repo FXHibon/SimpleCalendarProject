@@ -1,4 +1,4 @@
-package epsi.fx.com.simplecalendarproject.ws;
+package epsi.fx.com.simplecalendarproject.ws.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
