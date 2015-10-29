@@ -1,10 +1,12 @@
 package epsi.fx.com.simplecalendarproject.db;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 
 /**
@@ -13,7 +15,7 @@ import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 7;
+    public static final int DB_VERSION = 9;
     public static final String TAG = EventDao.class.getName();
 
     public static final String USER_TABLE_NAME = "users";
@@ -39,9 +41,11 @@ public class StorageHelper extends SQLiteOpenHelper {
             "status TEXT, " +
             "FOREIGN KEY(id_event) REFERENCES " + EVENT_TABLE_NAME + "(id), " +
             "FOREIGN KEY(id_user) REFERENCES " + USER_TABLE_NAME + "(id))";
+    private Context mContext;
 
     public StorageHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        mContext = context;
     }
 
     @Override
@@ -54,6 +58,11 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.remove(Common.CURRENT_USER_ID);
+        edit.remove(Common.SIMPLE_CALENDAR_EMAIL);
+        edit.apply();
         Log.i(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
         Log.i(TAG, "resetting db");
         db.execSQL("DROP TABLE IF EXISTS " + PARTICIPATION_TABLE_NAME);

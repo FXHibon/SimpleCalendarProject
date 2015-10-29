@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/user_form_name"
         android:hint="@string/user_form_name"
+        android:text="fx1"
         android:layout_gravity="center_horizontal" />
 
     <EditText
@@ -23,7 +24,16 @@
         android:hint="@string/user_form_email"
         android:inputType="textEmailAddress"
         android:id="@+id/user_form_email"
+        android:text="fx1@fx1.com"
         android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/user_form_password"
+        android:text="fx1"
+        android:id="@+id/user_form_password" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -48,4 +58,12 @@
             android:id="@+id/user_form_ok" />
 
     </LinearLayout>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_form_register"
+        android:id="@+id/user_form_register"
+        android:layout_gravity="center_horizontal"
+        android:checked="false" />
 </LinearLayout>

@@ -5,5 +5,6 @@ package epsi.fx.com.simplecalendarproject;
  */
 public class Common {
     public static final String SIMPLE_CALENDAR_EPSI = "SimpleCalendarEpsi";
+    public static final String SIMPLE_CALENDAR_EMAIL = "email";
     public static final String CURRENT_USER_ID = "currentUserId";
 }
