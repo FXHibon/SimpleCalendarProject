@@ -8,6 +8,7 @@ public class User {
     private String id;
     private String name;
     private String email;
+    private String password;
 
     public User() {
     }
@@ -43,5 +44,9 @@ public class User {
                 ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

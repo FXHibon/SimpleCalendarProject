@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,19 +12,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.squareup.okhttp.OkHttpClient;
-
-import java.util.List;
-
 import epsi.fx.com.simplecalendarproject.R;
-import epsi.fx.com.simplecalendarproject.WebService;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
-import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
-import epsi.fx.com.simplecalendarproject.ws.AddCookiesInterceptor;
-import epsi.fx.com.simplecalendarproject.ws.SetCookiesInterceptor;
-import retrofit.GsonConverterFactory;
+import epsi.fx.com.simplecalendarproject.ws.ApiClient;
+import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -57,33 +49,20 @@ public class EventListActivity extends AppCompatActivity {
             Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
         }
 
-        AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+        ApiClient apiClient = new ApiClient(this);
+        apiClient.register("asdg", "asfdg@df.com", "afdg").enqueue(new Callback<Void>() {
             @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    okHttpClient.interceptors()
-                            .add(new AddCookiesInterceptor(EventListActivity.this));
-                    okHttpClient.interceptors()
-                            .add(new SetCookiesInterceptor(EventListActivity.this));
-
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://epsi5-android.cleverapps.io")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-
-                    WebService ws = retrofit.create(WebService.class);
-                    Response<List<Event>> events = ws.listEvents().execute();
-                    Log.d(TAG, "Response code = " + events.code());
-                } catch (Exception e) {
-                    Log.wtf(TAG, e);
-                }
-                return null;
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                Toast.makeText(EventListActivity.this, "Registered", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "" + response.code());
             }
-        };
 
-        asyncTask.execute();
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(EventListActivity.this, "Not registered", Toast.LENGTH_LONG).show();
+                Log.wtf(TAG, t);
+            }
+        });
 
         // Init data
         refreshData();
