@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import java.util.List;
 
 import epsi.fx.com.simplecalendarproject.R;
@@ -21,6 +23,8 @@ import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
+import epsi.fx.com.simplecalendarproject.ws.AddCookiesInterceptor;
+import epsi.fx.com.simplecalendarproject.ws.SetCookiesInterceptor;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -58,6 +62,12 @@ public class EventListActivity extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
 
                 try {
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    okHttpClient.interceptors()
+                            .add(new AddCookiesInterceptor(EventListActivity.this));
+                    okHttpClient.interceptors()
+                            .add(new SetCookiesInterceptor(EventListActivity.this));
+
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://epsi5-android.cleverapps.io")
                             .addConverterFactory(GsonConverterFactory.create())
