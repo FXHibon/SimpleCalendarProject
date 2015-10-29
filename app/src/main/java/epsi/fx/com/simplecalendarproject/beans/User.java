@@ -5,6 +5,15 @@ package epsi.fx.com.simplecalendarproject.beans;
  */
 public class User {
 
+    public static final String USER_TABLE_NAME = "users";
+    public static final String USER_TABLE_CREATION = "CREATE TABLE " + USER_TABLE_NAME + " (" +
+            "id TEXT, " +
+            "name TEXT, " +
+            "email TEXT)";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String EMAIL = "email";
+
     private String id;
     private String name;
     private String email;

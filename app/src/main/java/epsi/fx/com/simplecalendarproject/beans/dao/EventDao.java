@@ -31,7 +31,7 @@ public class EventDao {
     public List<Event> getEvents() {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT id, title, description, author, date_begin, date_end FROM " + StorageHelper.EVENT_TABLE_NAME, null);
+        Cursor c = db.rawQuery("SELECT * FROM " + Event.EVENT_TABLE_NAME, null);
 
         List<Event> events = new ArrayList<Event>();
 
@@ -58,21 +58,20 @@ public class EventDao {
      * @return
      */
     private Event parseEvent(Cursor cursor) {
-        Event event;
-        event = new Event();
-        event.setId(cursor.getString(cursor.getColumnIndex("id")));
-        event.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-        event.setDesc(cursor.getString(cursor.getColumnIndex("description")));
-        event.setAuthor(cursor.getString(cursor.getColumnIndex("author")));
-        event.setDateBegin(DateTime.parse(cursor.getString(cursor.getColumnIndex("date_begin"))));
-        event.setDateEnd(DateTime.parse(cursor.getString(cursor.getColumnIndex("date_end"))));
+        Event event = new Event();
+        event.setId(cursor.getString(cursor.getColumnIndex(Event.ID)));
+        event.setTitle(cursor.getString(cursor.getColumnIndex(Event.TITLE)));
+        event.setDesc(cursor.getString(cursor.getColumnIndex(Event.DESCRIPTION)));
+        event.setAuthor(cursor.getString(cursor.getColumnIndex(Event.AUTHOR)));
+        event.setDateBegin(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.DATE_BEGIN))));
+        event.setDateEnd(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.DATE_END))));
         return event;
     }
 
     public Event getEventById(String id) {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT id, title, description, author, date_begin, date_end FROM " + StorageHelper.EVENT_TABLE_NAME + " WHERE id = '" + id + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM " + Event.EVENT_TABLE_NAME + " WHERE id = '" + id + "'", null);
 
         Event event = null;
 
@@ -90,17 +89,17 @@ public class EventDao {
         ContentValues valuesDb = new ContentValues();
 
         if (update) {
-            valuesDb.put("id", event.getId());
+            valuesDb.put(Event.ID, event.getId());
         } else {
-            valuesDb.put("id", UUID.randomUUID().toString());
+            valuesDb.put(Event.ID, UUID.randomUUID().toString());
         }
-        valuesDb.put("title", event.getTitle());
-        valuesDb.put("description", event.getDesc());
-        valuesDb.put("author", event.getAuthor());
-        valuesDb.put("date_begin", event.getDateBegin().toString());
-        valuesDb.put("date_end", event.getDateEnd().toString());
+        valuesDb.put(Event.TITLE, event.getTitle());
+        valuesDb.put(Event.DESCRIPTION, event.getDesc());
+        valuesDb.put(Event.AUTHOR, event.getAuthor());
+        valuesDb.put(Event.DATE_BEGIN, event.getDateBegin().toString());
+        valuesDb.put(Event.DATE_END, event.getDateEnd().toString());
 
-        db.insert(StorageHelper.EVENT_TABLE_NAME, null, valuesDb);
+        db.insert(Event.EVENT_TABLE_NAME, null, valuesDb);
 
         Log.i(TAG, event.toString() + " inserted");
         db.close();
@@ -117,7 +116,7 @@ public class EventDao {
     public List<Event> getEventByAuthor(String id) {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT id, title, description, author, date_begin, date_end FROM " + StorageHelper.EVENT_TABLE_NAME + " WHERE author = '" + id + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM " + Event.EVENT_TABLE_NAME + " WHERE author = '" + id + "'", null);
 
         List<Event> events = new ArrayList<>();
         if (c.getCount() > 0) {
@@ -135,9 +134,9 @@ public class EventDao {
     }
 
     public List<User> getParticipants(Event event) {
-        SQLiteDatabase db = mStorageHelper.getWritableDatabase();
+        SQLiteDatabase db = mStorageHelper.getReadableDatabase();
 
-        String bigRequest = "SELECT * FROM " + StorageHelper.PARTICIPATION_TABLE_NAME + " pr INNER JOIN " + StorageHelper.EVENT_TABLE_NAME + " ev ON pr.id_event = ev.id WHERE id = " + event.getId();
+        String bigRequest = "SELECT * FROM " + Event.PARTICIPATION_TABLE_NAME + " pr INNER JOIN " + Event.EVENT_TABLE_NAME + " ev ON pr.id_event = ev.id WHERE id = " + event.getId();
         Cursor cursor = db.rawQuery(bigRequest, null);
 
 
