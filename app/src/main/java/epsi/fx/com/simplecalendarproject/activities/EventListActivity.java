@@ -9,17 +9,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import java.util.List;
+
 import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
-import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
+import epsi.fx.com.simplecalendarproject.beans.Event;
+import epsi.fx.com.simplecalendarproject.ws.ApiClient;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class EventListActivity extends AppCompatActivity {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
     public static final String TAG = EventListActivity.class.getName();
     private ListView mList;
-    private EventDao mEventDao;
+    private ApiClient mApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +36,8 @@ public class EventListActivity extends AppCompatActivity {
 
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);
-        mEventDao = new EventDao(this);
 
-        // Internet Access
-//        ConnectivityManager mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetworkInfo = mgr.getActiveNetworkInfo();
-//        if (activeNetworkInfo.isConnected()) {
-//            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
-//        }
+        mApiClient = new ApiClient(this);
 
         // Init data
         refreshData();
@@ -47,8 +47,27 @@ public class EventListActivity extends AppCompatActivity {
      * Refresh data
      */
     private void refreshData() {
-        EventItemAdapter eventItemAdapter = new EventItemAdapter(this, mEventDao.getEvents());
-        mList.setAdapter(eventItemAdapter);
+
+//        EventItemAdapter eventItemAdapter = new EventItemAdapter(this, mEventDao.getEvents());
+//        mList.setAdapter(eventItemAdapter);
+        mApiClient.listEvents().enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
+                Log.v(TAG, "listEvents.response: " + response.code());
+                if (response.isSuccess()) {
+                    EventItemAdapter eventItemAdapter = new EventItemAdapter(EventListActivity.this, response.body());
+                    mList.setAdapter(eventItemAdapter);
+                } else {
+                    Log.e(TAG, "listEvents. error");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "Error: " + t.getMessage());
+            }
+        });
     }
 
     /**
@@ -84,10 +103,21 @@ public class EventListActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
 
-        Log.d(TAG, "prefs: '" + prefs.getString(Common.SIMPLE_CALENDAR_EMAIL, "") + "'");
+        Log.v(TAG, "prefs.SIMPLE_CALENDAR_EMAIL = " + prefs.getString(Common.SIMPLE_CALENDAR_EMAIL, ""));
         if (prefs.getString(Common.SIMPLE_CALENDAR_EMAIL, "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void onClickDisconnect(View view) {
+        disconnect();
+    }
+
+    private void disconnect() {
+        Log.v(TAG, "Clearing " + Common.SIMPLE_CALENDAR_EPSI + " prefs");
+        SharedPreferences.Editor edit = this.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE).edit();
+        edit.clear();
+        edit.apply();
     }
 }

@@ -4,10 +4,14 @@ import android.content.Context;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import java.util.List;
+
+import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Login;
 import epsi.fx.com.simplecalendarproject.beans.User;
 import epsi.fx.com.simplecalendarproject.ws.interceptors.AddCookiesInterceptor;
 import epsi.fx.com.simplecalendarproject.ws.interceptors.SetCookiesInterceptor;
+import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -45,5 +49,9 @@ public class ApiClient {
         login.setEmail(u.getEmail());
         login.setPassword(u.getPassword());
         return ws.login(login);
+    }
+
+    public Call<List<Event>> listEvents() {
+        return ws.listEvents();
     }
 }

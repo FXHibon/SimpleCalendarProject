@@ -24,4 +24,5 @@ public interface WebService {
 
     @POST("/login")
     Call<Void> login(@Body Login u);
+
 }

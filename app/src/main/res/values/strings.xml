@@ -14,4 +14,5 @@
     <string name="user_form_email">Email</string>
     <string name="user_form_password">Password</string>
     <string name="user_form_register">Register</string>
+    <string name="event_list_disconnect">Disconnect</string>
 </resources>

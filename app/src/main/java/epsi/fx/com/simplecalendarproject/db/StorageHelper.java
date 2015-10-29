@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import epsi.fx.com.simplecalendarproject.Common;
-import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 
 /**
  * Created by fx on 15/10/2015.
@@ -15,8 +14,8 @@ import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 9;
-    public static final String TAG = EventDao.class.getName();
+    public static final int DB_VERSION = 10;
+    public static final String TAG = StorageHelper.class.getName();
 
     public static final String USER_TABLE_NAME = "users";
     public static final String USER_TABLE_CREATION = "CREATE TABLE " + USER_TABLE_NAME + " (" +
@@ -45,12 +44,13 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     public StorageHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        Log.v(TAG, "new StorageHelper");
         mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i(TAG, DB_NAME + " db creation");
+        Log.v(TAG, DB_NAME + " db creation");
         db.execSQL(USER_TABLE_CREATION);
         db.execSQL(EVENT_TABLE_CREATION);
         db.execSQL(PARTICIPATION_TABLE_CREATION);
@@ -58,13 +58,14 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(Common.CURRENT_USER_ID);
         edit.remove(Common.SIMPLE_CALENDAR_EMAIL);
         edit.apply();
-        Log.i(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
-        Log.i(TAG, "resetting db");
+        Log.v(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
+        Log.v(TAG, "resetting db");
         db.execSQL("DROP TABLE IF EXISTS " + PARTICIPATION_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + EVENT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
