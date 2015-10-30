@@ -20,19 +20,19 @@ import retrofit.Retrofit;
  */
 public class ApiClient {
 
-    private Context mContext;
+    private static final String API_END_POINT = "http://epsi5-android.cleverapps.io";
     private final WebService ws;
 
     public ApiClient(Context ctx) {
-        mContext = ctx;
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.interceptors()
-                .add(new AddCookiesInterceptor(mContext));
+                .add(new AddCookiesInterceptor(ctx));
         okHttpClient.interceptors()
-                .add(new SetCookiesInterceptor(mContext));
+                .add(new SetCookiesInterceptor(ctx));
 
+        // Build API Client
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://epsi5-android.cleverapps.io")
+                .baseUrl(API_END_POINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -40,10 +40,21 @@ public class ApiClient {
         ws = retrofit.create(WebService.class);
     }
 
+    /**
+     * Register a new user
+     *
+     * @param u User to be registered
+     * @return Call
+     */
     public retrofit.Call<Void> register(User u) {
         return ws.register(u);
     }
 
+    /**
+     * Log the user in
+     * @param u User to be logged in
+     * @return Call
+     */
     public retrofit.Call<Void> login(User u) {
         Login login = new Login();
         login.setEmail(u.getEmail());
@@ -51,6 +62,10 @@ public class ApiClient {
         return ws.login(login);
     }
 
+    /**
+     * List all events
+     * @return Call
+     */
     public Call<List<Event>> listEvents() {
         return ws.listEvents();
     }

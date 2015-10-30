@@ -45,9 +45,9 @@ public class EventFormActivity extends AppCompatActivity {
         event.setDateEnd(DateTime.now());
 //        event.setDateBegin(dateBegin.getText().toString());
 //        event.setDateEnd(dateEnd.getText().toString());
-        SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        event.setAuthor(prefs.getString(Common.CURRENT_USER_ID, ""));
+        event.setAuthor(prefs.getString(Common.PREFS_USER_ID, ""));
 
         mEventDao.insertEvent(event);
 

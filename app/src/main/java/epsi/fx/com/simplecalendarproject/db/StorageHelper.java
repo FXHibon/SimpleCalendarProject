@@ -59,10 +59,10 @@ public class StorageHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.remove(Common.CURRENT_USER_ID);
-        edit.remove(Common.SIMPLE_CALENDAR_EMAIL);
+        edit.remove(Common.PREFS_USER_ID);
+        edit.remove(Common.PREFS_USER_EMAIL);
         edit.apply();
         Log.v(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
         Log.v(TAG, "resetting db");

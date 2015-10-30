@@ -20,6 +20,7 @@ import epsi.fx.com.simplecalendarproject.Common;
 public class AddCookiesInterceptor implements Interceptor {
 
     public static final String TAG = AddCookiesInterceptor.class.getName();
+    public static final String COOKIE_HEADER_NAME = "Cookie";
 
     private Context mContext;
 
@@ -31,11 +32,11 @@ public class AddCookiesInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
 
-        SharedPreferences prefs = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
-        Set<String> preferences = (Set) prefs.getStringSet("cookies", new HashSet<String>());
+        SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
+        Set<String> preferences = prefs.getStringSet("cookies", new HashSet<String>());
         for (String cookie : preferences) {
-            builder.addHeader("Cookie", cookie);
-            Log.v(TAG, "Adding header " + cookie);
+            builder.addHeader(COOKIE_HEADER_NAME, cookie);
+            Log.v(TAG, String.format("Adding header %s", cookie));
         }
         return chain.proceed(builder.build());
     }

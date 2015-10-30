@@ -48,21 +48,17 @@ public class EventListActivity extends AppCompatActivity {
      */
     private void refreshData() {
 
-//        EventItemAdapter eventItemAdapter = new EventItemAdapter(this, mEventDao.getEvents());
-//        mList.setAdapter(eventItemAdapter);
         mApiClient.listEvents().enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
-                Log.v(TAG, "listEvents.response: " + response.code());
+                Log.v(TAG, String.format("listEvents.response: %d", response.code()));
                 if (response.isSuccess()) {
                     EventItemAdapter eventItemAdapter = new EventItemAdapter(EventListActivity.this, response.body());
                     mList.setAdapter(eventItemAdapter);
                 } else {
                     Log.e(TAG, "listEvents. error");
-
                 }
             }
-
             @Override
             public void onFailure(Throwable t) {
                 Log.e(TAG, "Error: " + t.getMessage());
@@ -101,10 +97,10 @@ public class EventListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        Log.v(TAG, "prefs.SIMPLE_CALENDAR_EMAIL = " + prefs.getString(Common.SIMPLE_CALENDAR_EMAIL, ""));
-        if (prefs.getString(Common.SIMPLE_CALENDAR_EMAIL, "").equals("")) {
+        Log.v(TAG, String.format("prefs.PREFS_USER_EMAIL = %s", prefs.getString(Common.PREFS_USER_EMAIL, "")));
+        if (prefs.getString(Common.PREFS_USER_EMAIL, "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
         }
@@ -115,8 +111,8 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     private void disconnect() {
-        Log.v(TAG, "Clearing " + Common.SIMPLE_CALENDAR_EPSI + " prefs");
-        SharedPreferences.Editor edit = this.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE).edit();
+        Log.v(TAG, String.format("Clearing %s prefs", Common.PREFS_SCOPE));
+        SharedPreferences.Editor edit = this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
         edit.clear();
         edit.apply();
     }

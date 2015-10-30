@@ -13,6 +13,7 @@ import retrofit.http.POST;
 
 /**
  * Created by fx on 28/10/2015.
+ * List of all rest API that the app may use
  */
 public interface WebService {
 

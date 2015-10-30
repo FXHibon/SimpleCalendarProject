@@ -13,7 +13,6 @@ import android.widget.Toast;
 import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.User;
-import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
 import epsi.fx.com.simplecalendarproject.ws.ApiClient;
 import retrofit.Callback;
 import retrofit.Response;
@@ -23,21 +22,29 @@ public class UserFormActivity extends AppCompatActivity {
 
     private static final String TAG = UserFormActivity.class.getName();
 
-    private UserDao mUserDao;
-    private ApiClient client;
+    private ApiClient mClient;
+    private Switch mRegisterSwitch;
+    private EditText mNameField;
+    private EditText mEmailField;
+    private EditText mPasswordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Init view
         setContentView(R.layout.activity_user_form);
 
-        mUserDao = new UserDao(this);
-        client = new ApiClient(this);
+        // Init fields
+        mClient = new ApiClient(this);
+        mRegisterSwitch = (Switch) findViewById(R.id.user_form_register);
+        mNameField = (EditText) findViewById(R.id.user_form_name);
+        mEmailField = (EditText) findViewById(R.id.user_form_email);
+        mPasswordField = (EditText) findViewById(R.id.user_form_password);
     }
 
     public void onClickOk(View view) {
-        Switch register = (Switch) findViewById(R.id.user_form_register);
-        if (register.isChecked()) {
+        if (mRegisterSwitch.isChecked()) {
             saveUser();
         } else {
             loginUser();
@@ -45,28 +52,28 @@ public class UserFormActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Try to login using fields
+     */
     private void loginUser() {
-        EditText name = (EditText) findViewById(R.id.user_form_name);
-        EditText email = (EditText) findViewById(R.id.user_form_email);
-        EditText password = (EditText) findViewById(R.id.user_form_password);
 
         final User user = new User();
-        user.setEmail(email.getText().toString());
-        user.setName(name.getText().toString());
-        user.setPassword(password.getText().toString());
+        user.setEmail(mEmailField.getText().toString());
+        user.setName(mNameField.getText().toString());
+        user.setPassword(mPasswordField.getText().toString());
 
-        client.login(user).enqueue(new Callback<Void>() {
+        mClient.login(user).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
                 Log.v(TAG, Integer.toString(response.code()));
                 if (response.isSuccess()) {
-                    SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE).edit();
-                    simpleCalendar.putString(Common.SIMPLE_CALENDAR_EMAIL, user.getEmail());
+                    SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
+                    simpleCalendar.putString(Common.PREFS_USER_EMAIL, user.getEmail());
                     simpleCalendar.apply();
-                    Log.v(TAG, "Authenticated: " + user);
+                    Log.v(TAG, String.format("Authentication succeed: %s", user));
                     finish();
                 } else {
-                    Toast.makeText(UserFormActivity.this, "Not authenticated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserFormActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, Integer.toString(response.code()));
                 }
             }
@@ -79,30 +86,30 @@ public class UserFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Try to register user using fields
+     */
     private void saveUser() {
-        EditText name = (EditText) findViewById(R.id.user_form_name);
-        EditText email = (EditText) findViewById(R.id.user_form_email);
-        EditText password = (EditText) findViewById(R.id.user_form_password);
 
         final User user = new User();
-        user.setEmail(email.getText().toString());
-        user.setName(name.getText().toString());
-        user.setPassword(password.getText().toString());
+        user.setEmail(mEmailField.getText().toString());
+        user.setName(mNameField.getText().toString());
+        user.setPassword(mPasswordField.getText().toString());
 
-        client.register(user).enqueue(new Callback<Void>() {
+        mClient.register(user).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
+                Log.v(TAG, String.format("register.onResponse => %s", Integer.toString(response.code())));
                 if (!response.isSuccess()) {
-                    Toast.makeText(UserFormActivity.this, "Nop", Toast.LENGTH_LONG).show();
-                    Log.v(TAG, Integer.toString(response.code()));
+                    Toast.makeText(UserFormActivity.this, "Can't register. Try another email", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(UserFormActivity.this, "Registered", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserFormActivity.this, user.getEmail() + " registered", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(UserFormActivity.this, "Unexpected error", Toast.LENGTH_LONG).show();
+                Toast.makeText(UserFormActivity.this, "Unexpected error", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.getMessage());
             }
         });

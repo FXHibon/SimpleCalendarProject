@@ -19,7 +19,7 @@ import epsi.fx.com.simplecalendarproject.Common;
 public class SetCookiesInterceptor implements Interceptor {
 
     public static final String TAG = SetCookiesInterceptor.class.getName();
-
+    public static final String SET_COOKIE_HEADER_NAME = "Set-Cookie";
 
     private Context mContext;
 
@@ -32,14 +32,14 @@ public class SetCookiesInterceptor implements Interceptor {
 
         Response originalResponse = chain.proceed(chain.request());
 
-        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+        if (!originalResponse.headers(SET_COOKIE_HEADER_NAME).isEmpty()) {
             Set<String> cookies = new HashSet<>();
-            for (String cookie : originalResponse.headers("Set-Cookie")) {
+            for (String cookie : originalResponse.headers(SET_COOKIE_HEADER_NAME)) {
                 cookies.add(cookie);
-                Log.v(TAG, "Setting cookie: " + cookie);
+                Log.v(TAG, String.format("Setting cookie: %s", cookie));
             }
-            SharedPreferences.Editor simpleCalendar = mContext.getSharedPreferences(Common.SIMPLE_CALENDAR_EPSI, Context.MODE_PRIVATE).edit();
-            simpleCalendar.putStringSet("cookies", cookies).apply();
+            SharedPreferences.Editor simpleCalendar = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
+            simpleCalendar.putStringSet(Common.PREFS_COOKIES, cookies).apply();
         }
 
         return originalResponse;
