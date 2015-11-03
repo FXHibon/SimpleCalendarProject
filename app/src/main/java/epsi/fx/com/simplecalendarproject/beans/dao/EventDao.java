@@ -63,8 +63,8 @@ public class EventDao {
         event.setTitle(cursor.getString(cursor.getColumnIndex(Event.TITLE)));
         event.setDesc(cursor.getString(cursor.getColumnIndex(Event.DESCRIPTION)));
         event.setAuthor(cursor.getString(cursor.getColumnIndex(Event.AUTHOR)));
-        event.setDateBegin(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.DATE_BEGIN))));
-        event.setDateEnd(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.DATE_END))));
+        event.setDateBegin(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.BEGIN))));
+        event.setDateEnd(DateTime.parse(cursor.getString(cursor.getColumnIndex(Event.END))));
         return event;
     }
 
@@ -96,8 +96,8 @@ public class EventDao {
         valuesDb.put(Event.TITLE, event.getTitle());
         valuesDb.put(Event.DESCRIPTION, event.getDesc());
         valuesDb.put(Event.AUTHOR, event.getAuthor());
-        valuesDb.put(Event.DATE_BEGIN, event.getDateBegin().toString());
-        valuesDb.put(Event.DATE_END, event.getDateEnd().toString());
+        valuesDb.put(Event.BEGIN, event.getDateBegin().toString());
+        valuesDb.put(Event.END, event.getDateEnd().toString());
 
         db.insert(Event.EVENT_TABLE_NAME, null, valuesDb);
 

@@ -14,8 +14,9 @@ public class Event {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String AUTHOR = "author";
-    public static final String DATE_BEGIN = "date_begin";
-    public static final String DATE_END = "date_end";
+    public static final String BEGIN = "begin";
+    public static final String END = "end";
+    public static final String PARTICIPANTS = "participants";
 
     public static final String EVENT_TABLE_NAME = "events";
     public static final String EVENT_TABLE_CREATION = "CREATE TABLE " + EVENT_TABLE_NAME + " (" +
@@ -23,8 +24,8 @@ public class Event {
             "title TEXT, " +
             "author TEXT, " +
             "description TEXT, " +
-            "date_begin TEXT, " +
-            "date_end TEXT, " +
+            "begin TEXT, " +
+            "end TEXT, " +
             "FOREIGN KEY(author) REFERENCES " + User.USER_TABLE_NAME + "(id))";
 
     public static final String PARTICIPATION_TABLE_NAME = "participation";
@@ -41,7 +42,7 @@ public class Event {
     private String author;
     private DateTime dateBegin;
     private DateTime dateEnd;
-    private List<Map<String, Status>> participants;
+    private List<Participant> participants;
 
     public Event() {
 

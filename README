@@ -11,4 +11,17 @@ POST /logout
 POST /login      =>  {email: "?", password: "?"}
 
 user {id: text, name: text, email: text}
-meeting {id: text, author: text, description: text, title: text, begin: text, end: text, participants: [{id: text, status: <present, absent, unknown>}]}
+
+meeting {
+    id: text,
+    author: text,
+    description: text,
+    title: text,
+    begin: text,
+    end: text,
+    participants: [{
+            id: text,
+            status: <present, absent, unknown>
+        }
+    ]
+ }
