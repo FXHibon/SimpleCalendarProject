@@ -49,7 +49,6 @@ public class UserFormActivity extends AppCompatActivity {
         } else {
             loginUser();
         }
-        finish();
     }
 
     /**
@@ -69,9 +68,12 @@ public class UserFormActivity extends AppCompatActivity {
                 if (response.isSuccess()) {
                     SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
                     simpleCalendar.putString(Common.PREFS_USER_EMAIL, user.getEmail());
-                    simpleCalendar.apply();
-                    Log.v(TAG, String.format("Authentication succeed: %s", user));
-                    finish();
+                    if (simpleCalendar.commit()) {
+                        Log.v(TAG, String.format("Authentication succeed: %s", user));
+                        finish();
+                    } else {
+                        Log.v(TAG, "Can't write into ShardPreferences");
+                    }
                 } else {
                     Toast.makeText(UserFormActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, Integer.toString(response.code()));
