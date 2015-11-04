@@ -1,9 +1,14 @@
 package epsi.fx.com.simplecalendarproject.beans;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
+
 
 /**
  * Created by fx on 16/10/2015.
@@ -18,102 +23,186 @@ public class Event {
     public static final String END = "end";
     public static final String PARTICIPANTS = "participants";
 
-    public static final String EVENT_TABLE_NAME = "events";
-    public static final String EVENT_TABLE_CREATION = "CREATE TABLE " + EVENT_TABLE_NAME + " (" +
-            "id TEXT, " +
-            "title TEXT, " +
-            "author TEXT, " +
-            "description TEXT, " +
-            "begin TEXT, " +
-            "end TEXT, " +
-            "FOREIGN KEY(author) REFERENCES " + User.USER_TABLE_NAME + "(id))";
-
-    public static final String PARTICIPATION_TABLE_NAME = "participation";
-    public static final String PARTICIPATION_TABLE_CREATION = "CREATE TABLE " + PARTICIPATION_TABLE_NAME + " (" +
-            "id_event TEXT, " +
-            "id_user TEXT, " +
-            "status TEXT, " +
-            "FOREIGN KEY(id_event) REFERENCES " + EVENT_TABLE_NAME + "(id), " +
-            "FOREIGN KEY(id_user) REFERENCES " + User.USER_TABLE_NAME + "(id))";
-
-    private String id;
+    @SerializedName(ID)
+    @Expose
+    private UUID id;
+    @SerializedName(AUTHOR)
+    @Expose
+    private UUID author;
+    /**
+     * (Required)
+     */
+    @SerializedName(TITLE)
+    @Expose
     private String title;
-    private String desc;
-    private String author;
-    private DateTime dateBegin;
-    private DateTime dateEnd;
-    private List<Participant> participants;
+    @SerializedName(DESCRIPTION)
+    @Expose
+    private String description;
+    /**
+     * (Required)
+     */
+    @SerializedName(BEGIN)
+    @Expose
+    private DateTime begin;
+    /**
+     * (Required)
+     */
+    @SerializedName(END)
+    @Expose
+    private DateTime end;
+    /**
+     * (Required)
+     */
+    @SerializedName(PARTICIPANTS)
+    @Expose
+    private List<Participant> participants = new ArrayList<Participant>();
 
-    public Event() {
-
+    /**
+     * @return The id
+     */
+    public UUID getId() {
+        return id;
     }
 
+    /**
+     * @param id The id
+     */
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Event withId(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * @return The author
+     */
+    public UUID getAuthor() {
+        return author;
+    }
+
+    /**
+     * @param author The author
+     */
+    public void setAuthor(UUID author) {
+        this.author = author;
+    }
+
+    public Event withAuthor(UUID author) {
+        this.author = author;
+        return this;
+    }
+
+    /**
+     * (Required)
+     *
+     * @return The title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * (Required)
+     *
+     * @param title The title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public Event withTitle(String title) {
+        this.title = title;
+        return this;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    /**
+     * @return The description
+     */
+    public String getDescription() {
+        return description;
     }
 
-    public DateTime getDateEnd() {
-        return dateEnd;
+    /**
+     * @param description The description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setDateEnd(DateTime dateEnd) {
-        this.dateEnd = dateEnd;
+    public Event withDescription(String description) {
+        this.description = description;
+        return this;
     }
 
-    public DateTime getDateBegin() {
-        return dateBegin;
+    /**
+     * (Required)
+     *
+     * @return The begin
+     */
+    public DateTime getBegin() {
+        return begin;
     }
 
-    public void setDateBegin(DateTime dateBegin) {
-        this.dateBegin = dateBegin;
+    /**
+     * (Required)
+     *
+     * @param begin The begin
+     */
+    public void setBegin(DateTime begin) {
+        this.begin = begin;
     }
 
-    public String getAuthor() {
-        return author;
+    public Event withBegin(DateTime begin) {
+        this.begin = begin;
+        return this;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    /**
+     * (Required)
+     *
+     * @return The end
+     */
+    public DateTime getEnd() {
+        return end;
     }
 
-    public String getId() {
-        return id;
+    /**
+     * (Required)
+     *
+     * @param end The end
+     */
+    public void setEnd(DateTime end) {
+        this.end = end;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Event withEnd(DateTime end) {
+        this.end = end;
+        return this;
     }
 
-    public List<Map<String, Status>> getParticipants() {
+    /**
+     * (Required)
+     *
+     * @return The participants
+     */
+    public List<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Map<String, Status>> participants) {
+    /**
+     * (Required)
+     *
+     * @param participants The participants
+     */
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "participants=" + participants +
-                ", dateEnd=" + dateEnd +
-                ", dateBegin=" + dateBegin +
-                ", author='" + author + '\'' +
-                ", desc='" + desc + '\'' +
-                ", title='" + title + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+    public Event withParticipants(List<Participant> participants) {
+        this.participants = participants;
+        return this;
     }
 }

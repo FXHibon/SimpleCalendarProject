@@ -61,7 +61,7 @@ public class EventListActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Throwable t) {
-                Log.e(TAG, "Error: " + t.getMessage());
+                Log.e(TAG, String.format("Error: %s", t.getMessage()));
             }
         });
     }

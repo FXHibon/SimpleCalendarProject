@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
+import epsi.fx.com.simplecalendarproject.beans.Participant;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
 
 public class EventFormActivity extends AppCompatActivity {
@@ -40,14 +44,17 @@ public class EventFormActivity extends AppCompatActivity {
         TextView dateEnd = (TextView) findViewById(R.id.event_form_date_end);
 
         event.setTitle(title.getText().toString());
-        event.setDesc(desc.getText().toString());
-        event.setDateBegin(DateTime.now());
-        event.setDateEnd(DateTime.now());
-//        event.setDateBegin(dateBegin.getText().toString());
-//        event.setDateEnd(dateEnd.getText().toString());
+        event.setDescription(desc.getText().toString());
+        event.setBegin(DateTime.now());
+        event.setEnd(DateTime.now());
+//        event.setBegin(dateBegin.getText().toString());
+//        event.setEnd(dateEnd.getText().toString());
+
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        event.setAuthor(prefs.getString(Common.PREFS_USER_ID, ""));
+        String uuid = prefs.getString(Common.PREFS_USER_ID, "");
+        event.setAuthor(UUID.fromString(uuid));
+        event.setParticipants(new ArrayList<Participant>());
 
         mEventDao.insertEvent(event);
 

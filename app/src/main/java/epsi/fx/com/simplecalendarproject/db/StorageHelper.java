@@ -8,6 +8,7 @@ import android.util.Log;
 
 import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.beans.Event;
+import epsi.fx.com.simplecalendarproject.beans.Participant;
 import epsi.fx.com.simplecalendarproject.beans.User;
 
 /**
@@ -16,8 +17,20 @@ import epsi.fx.com.simplecalendarproject.beans.User;
 public class StorageHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "events";
-    public static final int DB_VERSION = 11;
+
+    public static final int DB_VERSION = 12;
+
     public static final String TAG = StorageHelper.class.getName();
+
+    public static final String EVENT_TABLE_NAME = "events";
+    public static final String USER_TABLE_NAME = "users";
+    public static final String PARTICIPATION_TABLE_NAME = "participants";
+
+    public static final String USER_TABLE_CREATION = String.format("CREATE TABLE %s (%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)", USER_TABLE_NAME, User.ID, User.NAME, User.DESCRIPTION, User.EMAIL, User.PASSWORD);
+
+    public static final String EVENT_TABLE_CREATION = String.format("CREATE TABLE %s (%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, FOREIGN KEY(%s) REFERENCES %s(%s))", EVENT_TABLE_NAME, Event.ID, Event.TITLE, Event.DESCRIPTION, Event.AUTHOR, Event.BEGIN, Event.END, Event.AUTHOR, USER_TABLE_NAME, User.ID);
+
+    public static final String PARTICIPATION_TABLE_CREATION = String.format("CREATE TABLE %s (id_event TEXT, id_user TEXT, %s TEXT, FOREIGN KEY(id_event) REFERENCES %s(%s), FOREIGN KEY(id_user) REFERENCES %s(%s))", PARTICIPATION_TABLE_NAME, Participant.STATUS, EVENT_TABLE_NAME, Event.ID, USER_TABLE_NAME, User.ID);
 
     private Context mContext;
 
@@ -29,25 +42,27 @@ public class StorageHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.v(TAG, DB_NAME + " db creation");
-        db.execSQL(User.USER_TABLE_CREATION);
-        db.execSQL(Event.EVENT_TABLE_CREATION);
-        db.execSQL(Event.PARTICIPATION_TABLE_CREATION);
+        Log.v(TAG, String.format("%s db creation", DB_NAME));
+        db.execSQL(USER_TABLE_CREATION);
+        db.execSQL(EVENT_TABLE_CREATION);
+        db.execSQL(PARTICIPATION_TABLE_CREATION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        Log.v(TAG, String.format("onUpgrade(oldVersion: %d, newVersion: %d)", oldVersion, newVersion));
+        Log.v(TAG, "resetting db and shared prefs");
 
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(Common.PREFS_USER_ID);
         edit.remove(Common.PREFS_USER_EMAIL);
         edit.apply();
-        Log.v(TAG, "onUpgrade(oldVersion: " + oldVersion + ", newVersion: " + newVersion + ")");
-        Log.v(TAG, "resetting db and shared prefs");
-        db.execSQL("DROP TABLE IF EXISTS " + Event.PARTICIPATION_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + Event.EVENT_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + User.USER_TABLE_NAME);
+
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", PARTICIPATION_TABLE_NAME));
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", EVENT_TABLE_NAME));
+        db.execSQL(String.format("DROP TABLE IF EXISTS %s", USER_TABLE_NAME));
         onCreate(db);
     }
 }
