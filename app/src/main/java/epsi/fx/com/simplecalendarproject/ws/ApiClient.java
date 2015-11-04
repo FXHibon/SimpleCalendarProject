@@ -21,23 +21,26 @@ import retrofit.Retrofit;
 public class ApiClient {
 
     private static final String API_END_POINT = "http://epsi5-android.cleverapps.io";
-    private final WebService ws;
+    private static WebService ws;
 
     public ApiClient(Context ctx) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors()
-                .add(new AddCookiesInterceptor(ctx));
-        okHttpClient.interceptors()
-                .add(new SetCookiesInterceptor(ctx));
 
-        // Build API Client
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_END_POINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
+        if (ws == null) {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            okHttpClient.interceptors()
+                    .add(new AddCookiesInterceptor(ctx));
+            okHttpClient.interceptors()
+                    .add(new SetCookiesInterceptor(ctx));
 
-        ws = retrofit.create(WebService.class);
+            // Build API Client
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_END_POINT)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(okHttpClient)
+                    .build();
+            ws = retrofit.create(WebService.class);
+        }
+
     }
 
     /**
@@ -68,5 +71,14 @@ public class ApiClient {
      */
     public Call<List<Event>> listEvents() {
         return ws.listEvents();
+    }
+
+    /**
+     * Create an event
+     *
+     * @return Call
+     */
+    public Call<Void> insertEvent(Event event) {
+        return ws.insertEvent(event);
     }
 }

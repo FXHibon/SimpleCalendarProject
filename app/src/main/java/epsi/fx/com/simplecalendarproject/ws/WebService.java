@@ -20,10 +20,14 @@ public interface WebService {
     @GET("/meetings")
     Call<List<Event>> listEvents();
 
+    @POST("/meetings")
+    Call<Void> insertEvent(@Body Event event);
+
     @POST("/users")
     Call<Void> register(@Body User u);
 
     @POST("/login")
     Call<Void> login(@Body Login u);
+
 
 }

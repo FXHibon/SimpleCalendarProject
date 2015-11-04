@@ -103,6 +103,8 @@ public class EventListActivity extends AppCompatActivity {
         if (prefs.getString(Common.PREFS_USER_EMAIL, "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
+        } else {
+            refreshData();
         }
     }
 

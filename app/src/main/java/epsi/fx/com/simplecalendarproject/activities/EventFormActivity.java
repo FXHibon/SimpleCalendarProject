@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,11 +19,18 @@ import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Participant;
 import epsi.fx.com.simplecalendarproject.beans.dao.EventDao;
+import epsi.fx.com.simplecalendarproject.ws.ApiClient;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class EventFormActivity extends AppCompatActivity {
 
+    public static final String TAG = EventFormActivity.class.getName();
+
     public static final int REQUEST_CODE = 1;
     private EventDao mEventDao;
+    private ApiClient mApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,8 @@ public class EventFormActivity extends AppCompatActivity {
 
         // Init field
         mEventDao = new EventDao(this);
+
+        mApiClient = new ApiClient(this);
     }
 
     public void onClickOk(View view) {
@@ -43,6 +53,7 @@ public class EventFormActivity extends AppCompatActivity {
         TextView dateBegin = (TextView) findViewById(R.id.event_form_date_begin);
         TextView dateEnd = (TextView) findViewById(R.id.event_form_date_end);
 
+        event.setId(UUID.randomUUID());
         event.setTitle(title.getText().toString());
         event.setDescription(desc.getText().toString());
         event.setBegin(DateTime.now());
@@ -53,14 +64,33 @@ public class EventFormActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
         String uuid = prefs.getString(Common.PREFS_USER_ID, "");
-        event.setAuthor(UUID.fromString(uuid));
+        event.setAuthor(UUID.fromString("1f3d7dc3-3f33-45ba-8d73-1bf0940d10b2"));
         event.setParticipants(new ArrayList<Participant>());
 
-        mEventDao.insertEvent(event);
+        mApiClient.insertEvent(event).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                Log.d(TAG, String.format("responseCode is %d", response.code()));
+                if (response.isSuccess()) {
+                    Log.d(TAG, "Creation success");
+                    Intent intent = new Intent();
+                    setResult(EventFormActivity.RESULT_OK, intent);
+                    EventFormActivity.this.finish();
+                } else {
+                    Log.d(TAG, "Creation failed");
+                }
+            }
 
-        Intent intent = new Intent();
-        setResult(EventFormActivity.RESULT_OK, intent);
-        EventFormActivity.this.finish();
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(TAG, String.format("FAILURE: %s", t.getMessage()));
+            }
+        });
+
+//        mEventDao.insertEvent(event);
+
+
+
     }
 
     public void onClickCancel(View view) {

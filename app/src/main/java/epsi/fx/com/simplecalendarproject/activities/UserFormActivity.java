@@ -97,6 +97,7 @@ public class UserFormActivity extends AppCompatActivity {
         user.setEmail(mEmailField.getText().toString());
         user.setName(mNameField.getText().toString());
         user.setPassword(mPasswordField.getText().toString());
+        user.setDescription("ma description");
 
         mClient.register(user).enqueue(new Callback<Void>() {
             @Override
