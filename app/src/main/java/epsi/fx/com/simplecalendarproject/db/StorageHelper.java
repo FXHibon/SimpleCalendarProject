@@ -56,8 +56,8 @@ public class StorageHelper extends SQLiteOpenHelper {
 
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.remove(Common.PREFS_USER_ID);
-        edit.remove(Common.PREFS_USER_EMAIL);
+        edit.remove(Common.USER_ID_KEY);
+        edit.remove(Common.USER_EMAIL_KEY);
         edit.apply();
 
         db.execSQL(String.format("DROP TABLE IF EXISTS %s", PARTICIPATION_TABLE_NAME));

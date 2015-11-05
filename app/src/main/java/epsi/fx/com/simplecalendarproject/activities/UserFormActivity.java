@@ -67,7 +67,7 @@ public class UserFormActivity extends AppCompatActivity {
                 Log.v(TAG, Integer.toString(response.code()));
                 if (response.isSuccess()) {
                     SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
-                    simpleCalendar.putString(Common.PREFS_USER_EMAIL, user.getEmail());
+                    simpleCalendar.putString(Common.USER_EMAIL_KEY, user.getEmail());
                     if (simpleCalendar.commit()) {
                         Log.v(TAG, String.format("Authentication succeed: %s", user));
                         finish();

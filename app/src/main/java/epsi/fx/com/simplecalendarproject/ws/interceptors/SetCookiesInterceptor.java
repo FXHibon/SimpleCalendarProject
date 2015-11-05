@@ -39,7 +39,7 @@ public class SetCookiesInterceptor implements Interceptor {
                 Log.v(TAG, String.format("Setting cookie: %s", cookie));
             }
             SharedPreferences.Editor simpleCalendar = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
-            simpleCalendar.putStringSet(Common.PREFS_COOKIES, cookies).apply();
+            simpleCalendar.putStringSet(Common.COOKIES_KEY, cookies).apply();
         }
 
         return originalResponse;

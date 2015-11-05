@@ -99,8 +99,8 @@ public class EventListActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        Log.v(TAG, String.format("prefs.PREFS_USER_EMAIL = %s", prefs.getString(Common.PREFS_USER_EMAIL, "")));
-        if (prefs.getString(Common.PREFS_USER_EMAIL, "").equals("")) {
+        Log.v(TAG, String.format("prefs.USER_EMAIL_KEY = %s", prefs.getString(Common.USER_EMAIL_KEY, "")));
+        if (prefs.getString(Common.USER_EMAIL_KEY, "").equals("")) {
             Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
             startActivity(intent);
         } else {

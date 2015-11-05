@@ -63,7 +63,7 @@ public class EventFormActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        String uuid = prefs.getString(Common.PREFS_USER_ID, "");
+        String uuid = prefs.getString(Common.USER_ID_KEY, "");
         event.setAuthor(UUID.fromString("1f3d7dc3-3f33-45ba-8d73-1bf0940d10b2"));
         event.setParticipants(new ArrayList<Participant>());
 
@@ -73,6 +73,7 @@ public class EventFormActivity extends AppCompatActivity {
                 Log.d(TAG, String.format("responseCode is %d", response.code()));
                 if (response.isSuccess()) {
                     Log.d(TAG, "Creation success");
+//                    mEventDao.insertEvent(event);
                     Intent intent = new Intent();
                     setResult(EventFormActivity.RESULT_OK, intent);
                     EventFormActivity.this.finish();
@@ -86,10 +87,6 @@ public class EventFormActivity extends AppCompatActivity {
                 Log.d(TAG, String.format("FAILURE: %s", t.getMessage()));
             }
         });
-
-//        mEventDao.insertEvent(event);
-
-
 
     }
 
