@@ -25,52 +25,15 @@ import retrofit.Retrofit;
 /**
  * Created by fx on 16/10/2015.
  */
-public class EventItemAdapter extends BaseAdapter {
+public class EventItemAdapter extends GenericAdapter<Event> {
 
     private final String TAG = EventItemAdapter.class.getName();
 
-    private final ApiClient mApiClient;
-    private Context mContext;
-    private List<Event> mEvents;
 
     private DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
-    private List<User> mUsers;
 
     public EventItemAdapter(Context context, List<Event> events) {
-        mContext = context;
-        mEvents = events;
-        mApiClient = new ApiClient(mContext);
-        mUsers = new ArrayList<>();
-        mApiClient.listUsers().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Response<List<User>> response, Retrofit retrofit) {
-                Log.i(TAG, "onResponse list users");
-                if (response.isSuccess()) {
-                    mUsers = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e(TAG, String.format("Error listing users: %s", t.getLocalizedMessage()));
-            }
-        });
-    }
-
-
-    @Override
-    public int getCount() {
-        return mEvents.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return (getCount() <= position - 1) ? null : mEvents.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
+        super(context, events);
     }
 
     @Override
@@ -84,7 +47,7 @@ public class EventItemAdapter extends BaseAdapter {
         TextView tvDate = (TextView) convertView.findViewById(R.id.event_item_date);
         TextView tvAuthor = (TextView) convertView.findViewById(R.id.event_item_author);
 
-        Event event = (Event) getItem(position);
+        Event event = getItem(position);
 
         if (event == null) {
             return null;
@@ -94,12 +57,6 @@ public class EventItemAdapter extends BaseAdapter {
         tvDesc.setText(event.getDescription());
         tvDate.setText(event.getBegin().toString(mDateFormatter));
         String name = event.getAuthor().toString().substring(0, 4);
-        for (User u : mUsers) {
-            if (u.getId().equals(event.getAuthor())) {
-                name = u.getName();
-                break;
-            }
-        }
         tvAuthor.setText(name);
 
         return convertView;

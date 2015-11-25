@@ -14,29 +14,10 @@ import epsi.fx.com.simplecalendarproject.beans.Participant;
 /**
  * Created by fx on 25/11/15.
  */
-public class ParticipantItemAdapter extends BaseAdapter {
-
-    private Context mContext;
-    private List<Participant> mList;
+public class ParticipantItemAdapter extends GenericAdapter<Participant> {
 
     public ParticipantItemAdapter(Context context, List<Participant> mList) {
-        this.mContext = context;
-        this.mList = mList;
-    }
-
-    @Override
-    public int getCount() {
-        return mList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return (getCount() <= position - 1) ? null : mList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
+        super(context, mList);
     }
 
     @Override
@@ -46,7 +27,7 @@ public class ParticipantItemAdapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.layout_participant_list_item, null);
         }
 
-        Participant item = (Participant) getItem(position);
+        Participant item = getItem(position);
         if (item == null) {
             return convertView;
         }

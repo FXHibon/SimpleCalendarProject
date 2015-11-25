@@ -31,6 +31,10 @@ public class EventFormActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 1;
     private EventDao mEventDao;
     private ApiClient mApiClient;
+    private TextView mTitle;
+    private TextView mDesc;
+    private TextView mDateBegin;
+    private TextView mDateEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +47,24 @@ public class EventFormActivity extends AppCompatActivity {
         mEventDao = new EventDao(this);
 
         mApiClient = new ApiClient(this);
+
+        mTitle = (TextView) findViewById(R.id.activity_event_form_title);
+        mDesc = (TextView) findViewById(R.id.activity_event_form_desc);
+        mDateBegin = (TextView) findViewById(R.id.activity_event_form_date_begin);
+        mDateEnd = (TextView) findViewById(R.id.activity_event_form_date_end);
     }
 
+    /**
+     * Listener to OK button
+     *
+     * @param view
+     */
     public void onClickOk(View view) {
+
         Event event = new Event();
 
-        TextView title = (TextView) findViewById(R.id.activity_event_form_title);
-        TextView desc = (TextView) findViewById(R.id.activity_event_form_desc);
-        TextView dateBegin = (TextView) findViewById(R.id.activity_event_form_date_begin);
-        TextView dateEnd = (TextView) findViewById(R.id.activity_event_form_date_end);
-
-        event.setTitle(title.getText().toString());
-        event.setDescription(desc.getText().toString());
+        event.setTitle(mTitle.getText().toString());
+        event.setDescription(mDesc.getText().toString());
         event.setBegin(DateTime.now());
         event.setEnd(DateTime.now());
 //        event.setBegin(dateBegin.getText().toString());
@@ -62,6 +72,7 @@ public class EventFormActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
+        // Id should have been given by the API
         String uuid = prefs.getString(Common.USER_ID_KEY, "0049beeb-6412-4831-b08e-bb86609fbefe");
         event.setAuthor(UUID.fromString(uuid));
         event.setParticipants(
@@ -97,9 +108,5 @@ public class EventFormActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(EventFormActivity.RESULT_CANCELED, intent);
         EventFormActivity.this.finish();
-    }
-
-    public ApiClient getApiClient() {
-        return mApiClient;
     }
 }

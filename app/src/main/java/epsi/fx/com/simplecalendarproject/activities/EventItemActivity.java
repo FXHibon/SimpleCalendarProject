@@ -59,6 +59,11 @@ public class EventItemActivity extends AppCompatActivity {
         fetchEvent(eventId);
     }
 
+    /**
+     * Get even from the API, given the id
+     *
+     * @param eventId Id to look for
+     */
     private void fetchEvent(final String eventId) {
         mApiClient.getEvent(eventId).enqueue(new Callback<List<Event>>() {
 
@@ -81,8 +86,7 @@ public class EventItemActivity extends AppCompatActivity {
 
     /**
      * Fill template with event data
-     *
-     * @param event
+     * @param event Event to fill data from
      */
     private void fillTemplate(Event event) {
         Log.i(TAG, String.format("Filling for %s", event));
@@ -97,9 +101,8 @@ public class EventItemActivity extends AppCompatActivity {
 
     /**
      * Check if id is null or not
-     *
      * @param eventId
-     * @return true if not null, else false
+     * @return true if not valid, else false
      */
     private boolean checkEventId(String eventId) {
         return (eventId == null || eventId.equals(""));

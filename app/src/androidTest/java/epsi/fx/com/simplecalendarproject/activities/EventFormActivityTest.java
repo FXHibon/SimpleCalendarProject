@@ -29,13 +29,4 @@ public class EventFormActivityTest extends ActivityInstrumentationTestCase2<Even
         assertTrue(mEventFormActivity != null);
     }
 
-    public void testApiExists() {
-        assertTrue(mEventFormActivity.getApiClient() != null);
-    }
-
-    public void testListEvents() throws IOException {
-        Response<List<Event>> resp = mEventFormActivity.getApiClient().listEvents().execute();
-
-        assertTrue(resp.isSuccess());
-    }
 }

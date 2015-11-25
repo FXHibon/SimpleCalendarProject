@@ -29,6 +29,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
     public static final String EXTRA_EVENT_ID = "EXTRA_EVENT_ID";
     private ListView mList;
     private ApiClient mApiClient;
+    private SharedPreferences mSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,9 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
 
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);
+        this.mSharedPrefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
         mApiClient = new ApiClient(this);
-
-        // Init data
-        refreshData();
     }
 
     /**
@@ -60,7 +59,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
                     mList.setOnItemClickListener(EventListActivity.this);
                     mList.setAdapter(eventItemAdapter);
                 } else {
-                    Log.e(TAG, "listEvents. error");
+                    Log.e(TAG, "can't get events from api ");
                 }
             }
 
@@ -93,11 +92,10 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        Log.v(TAG, String.format("prefs.USER_EMAIL_KEY = %s", prefs.getString(Common.USER_EMAIL_KEY, "")));
-        if (prefs.getString(Common.USER_EMAIL_KEY, "").equals("")) {
-            Intent intent = new Intent(EventListActivity.this, UserFormActivity.class);
+        Log.v(TAG, String.format("prefs.USER_EMAIL_KEY = %s", mSharedPrefs.getString(Common.USER_EMAIL_KEY, "")));
+        if (mSharedPrefs.getString(Common.USER_EMAIL_KEY, "").equals("")) {
+            Intent intent = new Intent(this, UserFormActivity.class);
             startActivity(intent);
         } else {
             refreshData();
@@ -109,22 +107,22 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
 
             @Override
             public void onResponse(Response<Void> response, Retrofit retrofit) {
-                disconnect();
+                localDisconnect();
                 onResume();
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(EventListActivity.this, "Cannot logged out", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventListActivity.this, "Can not logout", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, String.format("Error while logging out: %s", t.getLocalizedMessage()));
             }
         });
-        
+
     }
 
-    private void disconnect() {
+    private void localDisconnect() {
         Log.v(TAG, String.format("Clearing %s prefs", Common.PREFS_SCOPE));
-        SharedPreferences.Editor edit = this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor edit = this.mSharedPrefs.edit();
         edit.clear();
         edit.apply();
     }
@@ -140,7 +138,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Event clickedItem = (Event) parent.getItemAtPosition(position);
-        Log.i(TAG, clickedItem.toString());
+        Log.v(TAG, clickedItem.toString());
         Intent intent = new Intent(this, EventItemActivity.class);
         intent.putExtra(EXTRA_EVENT_ID, clickedItem.getId().toString());
         startActivity(intent);
