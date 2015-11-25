@@ -12,6 +12,8 @@ import android.widget.TextView;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 import epsi.fx.com.simplecalendarproject.Common;
@@ -53,7 +55,6 @@ public class EventFormActivity extends AppCompatActivity {
         TextView dateBegin = (TextView) findViewById(R.id.event_form_date_begin);
         TextView dateEnd = (TextView) findViewById(R.id.event_form_date_end);
 
-        event.setId(UUID.randomUUID());
         event.setTitle(title.getText().toString());
         event.setDescription(desc.getText().toString());
         event.setBegin(DateTime.now());
@@ -63,9 +64,13 @@ public class EventFormActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        String uuid = prefs.getString(Common.USER_ID_KEY, "");
-        event.setAuthor(UUID.fromString("1f3d7dc3-3f33-45ba-8d73-1bf0940d10b2"));
-        event.setParticipants(new ArrayList<Participant>());
+        String uuid = prefs.getString(Common.USER_ID_KEY, "0049beeb-6412-4831-b08e-bb86609fbefe");
+        event.setAuthor(UUID.fromString(uuid));
+        event.setParticipants(
+                Collections.singletonList(new Participant()
+                        .withId(uuid)
+                        .withStatus(Participant.Status.PRESENT))
+        );
 
         mApiClient.insertEvent(event).enqueue(new Callback<Void>() {
             @Override
@@ -94,5 +99,9 @@ public class EventFormActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(EventFormActivity.RESULT_CANCELED, intent);
         EventFormActivity.this.finish();
+    }
+
+    public ApiClient getApiClient() {
+        return mApiClient;
     }
 }

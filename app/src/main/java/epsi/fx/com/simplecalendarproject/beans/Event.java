@@ -205,4 +205,17 @@ public class Event {
         this.participants = participants;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", author=" + author +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", begin=" + begin +
+                ", end=" + end +
+                ", participants=" + participants.toString() +
+                '}';
+    }
 }

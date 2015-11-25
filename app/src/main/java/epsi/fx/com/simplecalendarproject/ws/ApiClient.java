@@ -1,8 +1,12 @@
 package epsi.fx.com.simplecalendarproject.ws;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
+
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -21,11 +25,13 @@ import retrofit.Retrofit;
  */
 public class ApiClient {
 
-    private static WebService ws;
+    public static final String TAG = ApiClient.class.getName();
+
+    private static WebService mWs;
 
     public ApiClient(Context ctx) {
 
-        if (ws == null) {
+        if (mWs == null) {
             OkHttpClient okHttpClient = new OkHttpClient();
             okHttpClient.interceptors()
                     .add(new AddCookiesInterceptor(ctx));
@@ -35,10 +41,17 @@ public class ApiClient {
             // Build API Client
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Common.API_END_POINT)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(
+                            GsonConverterFactory
+                                    .create(
+                                            new GsonBuilder()
+                                                    .registerTypeAdapter(DateTime.class, new DateTimeTypeConverter())
+                                                    .create()
+                                    )
+                    )
                     .client(okHttpClient)
                     .build();
-            ws = retrofit.create(WebService.class);
+            mWs = retrofit.create(WebService.class);
         }
 
     }
@@ -50,11 +63,12 @@ public class ApiClient {
      * @return Call
      */
     public retrofit.Call<Void> register(User u) {
-        return ws.register(u);
+        return mWs.register(u);
     }
 
     /**
      * Log the user in
+     *
      * @param u User to be logged in
      * @return Call
      */
@@ -62,15 +76,16 @@ public class ApiClient {
         Login login = new Login();
         login.setEmail(u.getEmail());
         login.setPassword(u.getPassword());
-        return ws.login(login);
+        return mWs.login(login);
     }
 
     /**
      * List all events
+     *
      * @return Call
      */
     public Call<List<Event>> listEvents() {
-        return ws.listEvents();
+        return mWs.listEvents();
     }
 
     /**
@@ -79,6 +94,12 @@ public class ApiClient {
      * @return Call
      */
     public Call<Void> insertEvent(Event event) {
-        return ws.insertEvent(event);
+        return mWs.insertEvent(event);
     }
+
+    public Call<Void> logout() {
+        Log.i(TAG, "logging out");
+        return mWs.logout();
+    }
+
 }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -109,7 +110,21 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     public void onClickDisconnect(View view) {
-        disconnect();
+        mApiClient.logout().enqueue(new Callback<Void>() {
+
+            @Override
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                disconnect();
+                onResume();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(EventListActivity.this, "Cannot logged out", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, String.format("Error while logging out: %s", t.getLocalizedMessage()));
+            }
+        });
+        
     }
 
     private void disconnect() {
