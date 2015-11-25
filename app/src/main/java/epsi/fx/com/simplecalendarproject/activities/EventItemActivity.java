@@ -49,10 +49,10 @@ public class EventItemActivity extends AppCompatActivity {
 
         mApiClient = new ApiClient(this);
 
-        mTitle = (TextView) findViewById(R.id.event_item_details_title);
-        mAuthor = (TextView) findViewById(R.id.event_item_details_author);
-        mDateInfo = (TextView) findViewById(R.id.event_item_details_date_info);
-        mParticipantsList = (ListView) findViewById(R.id.event_item_details_partipants_list);
+        mTitle = (TextView) findViewById(R.id.activity_event_item_title);
+        mAuthor = (TextView) findViewById(R.id.activity_event_item_author);
+        mDateInfo = (TextView) findViewById(R.id.activity_event_item_date_info);
+        mParticipantsList = (ListView) findViewById(R.id.activity_event_item_partipants_list);
 
         fetchEvent(eventId);
     }

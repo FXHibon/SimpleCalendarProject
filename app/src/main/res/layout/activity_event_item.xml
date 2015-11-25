@@ -24,8 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/event_item_details_title"
-            android:text="titre" />
+            android:id="@+id/activity_event_item_title"
+            android:text="@string/activity_event_item_title_hint"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
         <View
             android:layout_width="0dp"
@@ -35,8 +36,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/event_item_details_author"
-            android:text="author" />
+            android:id="@+id/activity_event_item_author"
+            android:text="@string/activity_event_item_author_hint" />
     </LinearLayout>
 
 
@@ -48,8 +49,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/event_item_details_date_info"
-            android:text="date" />
+            android:id="@+id/activity_event_item_date_info"
+            android:text="@string/activity_event_item_date_info_hint" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,8 +61,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/event_item_details_partipants_list">
-
+            android:id="@+id/activity_event_item_partipants_list">
         </ListView>
 
     </LinearLayout>

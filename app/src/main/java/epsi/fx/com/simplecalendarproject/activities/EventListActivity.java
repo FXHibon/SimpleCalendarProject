@@ -35,7 +35,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
 
         // Init view
-        setContentView(R.layout.event_list);
+        setContentView(R.layout.activity_event_list);
 
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);

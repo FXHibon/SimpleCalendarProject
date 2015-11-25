@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +18,6 @@ import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.User;
 import epsi.fx.com.simplecalendarproject.ws.ApiClient;
-import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -78,7 +76,7 @@ public class EventItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.event_item, null);
+            convertView = View.inflate(mContext, R.layout.layout_event_list_item, null);
         }
 
         TextView tvTitle = (TextView) convertView.findViewById(R.id.event_item_title);

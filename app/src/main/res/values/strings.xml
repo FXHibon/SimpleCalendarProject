@@ -17,4 +17,7 @@
     <string name="event_list_disconnect">Disconnect</string>
     <string name="event_item_details_from">"From "</string>
     <string name="event_item_details_to">" to "</string>
+    <string name="activity_event_item_title_hint">titre</string>
+    <string name="activity_event_item_author_hint">author</string>
+    <string name="activity_event_item_date_info_hint">date</string>
 </resources>

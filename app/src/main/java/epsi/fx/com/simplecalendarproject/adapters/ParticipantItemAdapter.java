@@ -43,7 +43,7 @@ public class ParticipantItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.participant_item, null);
+            convertView = View.inflate(mContext, R.layout.layout_participant_list_item, null);
         }
 
         Participant item = (Participant) getItem(position);

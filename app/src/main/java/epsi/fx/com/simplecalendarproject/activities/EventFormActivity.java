@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -39,7 +37,7 @@ public class EventFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Init view
-        setContentView(R.layout.event_form);
+        setContentView(R.layout.activity_event_form);
 
         // Init field
         mEventDao = new EventDao(this);
@@ -50,10 +48,10 @@ public class EventFormActivity extends AppCompatActivity {
     public void onClickOk(View view) {
         Event event = new Event();
 
-        TextView title = (TextView) findViewById(R.id.event_form_title);
-        TextView desc = (TextView) findViewById(R.id.event_form_desc);
-        TextView dateBegin = (TextView) findViewById(R.id.event_form_date_begin);
-        TextView dateEnd = (TextView) findViewById(R.id.event_form_date_end);
+        TextView title = (TextView) findViewById(R.id.activity_event_form_title);
+        TextView desc = (TextView) findViewById(R.id.activity_event_form_desc);
+        TextView dateBegin = (TextView) findViewById(R.id.activity_event_form_date_begin);
+        TextView dateEnd = (TextView) findViewById(R.id.activity_event_form_date_end);
 
         event.setTitle(title.getText().toString());
         event.setDescription(desc.getText().toString());
