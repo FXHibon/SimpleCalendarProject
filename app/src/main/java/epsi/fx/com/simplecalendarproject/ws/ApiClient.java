@@ -6,6 +6,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.util.List;
 
+import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Login;
 import epsi.fx.com.simplecalendarproject.beans.User;
@@ -20,7 +21,6 @@ import retrofit.Retrofit;
  */
 public class ApiClient {
 
-    private static final String API_END_POINT = "http://epsi5-android.cleverapps.io";
     private static WebService ws;
 
     public ApiClient(Context ctx) {
@@ -34,7 +34,7 @@ public class ApiClient {
 
             // Build API Client
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(API_END_POINT)
+                    .baseUrl(Common.API_END_POINT)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build();
