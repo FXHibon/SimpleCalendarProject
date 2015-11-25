@@ -10,6 +10,7 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
  * Created by fx on 28/10/2015.
@@ -23,6 +24,9 @@ public interface WebService {
     @POST("/meetings")
     Call<Void> insertEvent(@Body Event event);
 
+    @GET("/meetings/{id}")
+    Call<List<Event>> getEvent(@Path("id") String id);
+
     @POST("/users")
     Call<Void> register(@Body User u);
 
@@ -32,4 +36,18 @@ public interface WebService {
     @POST("/logout")
     Call<Void> logout();
 
+    @GET("/users")
+    Call<List<User>> listUsers();
+
+    @GET("/users/search/{username}")
+    Call<User> search(@Path("username") String username);
+
+    @POST("/meetings/{id}/accept")
+    Call<Event> acceptMeeting(@Path("id") String id);
+
+    @POST("/meetings/{id}/deny")
+    Call<Event> denyMeeting(@Path("id") String id);
+
+    @POST("/meetings/{id}/invite")
+    Call<Event> inviteMeeting(@Path("id") String id, @Body String userId);
 }

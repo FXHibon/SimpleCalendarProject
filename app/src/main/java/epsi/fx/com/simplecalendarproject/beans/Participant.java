@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by fx on 03/11/15.
@@ -19,7 +20,7 @@ public class Participant {
      */
     @SerializedName(ID)
     @Expose
-    private String id;
+    private UUID id;
     /**
      * (Required)
      */
@@ -32,7 +33,7 @@ public class Participant {
      *
      * @return The id
      */
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -41,11 +42,11 @@ public class Participant {
      *
      * @param id The id
      */
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Participant withId(String id) {
+    public Participant withId(UUID id) {
         this.id = id;
         return this;
     }

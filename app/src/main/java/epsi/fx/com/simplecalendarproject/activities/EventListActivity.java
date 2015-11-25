@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,10 +22,11 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class EventListActivity extends AppCompatActivity {
+public class EventListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
     public static final String TAG = EventListActivity.class.getName();
+    public static final String EXTRA_EVENT_ID = "EXTRA_EVENT_ID";
     private ListView mList;
     private ApiClient mApiClient;
 
@@ -55,11 +57,13 @@ public class EventListActivity extends AppCompatActivity {
                 Log.v(TAG, String.format("listEvents.response: %d", response.code()));
                 if (response.isSuccess()) {
                     EventItemAdapter eventItemAdapter = new EventItemAdapter(EventListActivity.this, response.body());
+                    mList.setOnItemClickListener(EventListActivity.this);
                     mList.setAdapter(eventItemAdapter);
                 } else {
                     Log.e(TAG, "listEvents. error");
                 }
             }
+
             @Override
             public void onFailure(Throwable t) {
                 Log.e(TAG, String.format("Error: %s", t.getMessage()));
@@ -132,5 +136,22 @@ public class EventListActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
         edit.clear();
         edit.apply();
+    }
+
+    /**
+     * Listener for list item click
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Event clickedItem = (Event) parent.getItemAtPosition(position);
+        Log.i(TAG, clickedItem.toString());
+        Intent intent = new Intent(this, EventItemActivity.class);
+        intent.putExtra(EXTRA_EVENT_ID, clickedItem.getId().toString());
+        startActivity(intent);
     }
 }

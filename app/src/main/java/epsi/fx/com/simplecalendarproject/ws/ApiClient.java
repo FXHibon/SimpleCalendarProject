@@ -63,6 +63,7 @@ public class ApiClient {
      * @return Call
      */
     public retrofit.Call<Void> register(User u) {
+        Log.i(TAG, "register");
         return mWs.register(u);
     }
 
@@ -73,6 +74,7 @@ public class ApiClient {
      * @return Call
      */
     public retrofit.Call<Void> login(User u) {
+        Log.i(TAG, "login");
         Login login = new Login();
         login.setEmail(u.getEmail());
         login.setPassword(u.getPassword());
@@ -85,6 +87,7 @@ public class ApiClient {
      * @return Call
      */
     public Call<List<Event>> listEvents() {
+        Log.i(TAG, "listEvents");
         return mWs.listEvents();
     }
 
@@ -94,12 +97,22 @@ public class ApiClient {
      * @return Call
      */
     public Call<Void> insertEvent(Event event) {
+        Log.i(TAG, "insertEvent");
         return mWs.insertEvent(event);
     }
 
+    public Call<List<Event>> getEvent(String id) {
+        Log.i(TAG, "getEvent");
+        return mWs.getEvent(id);
+    }
+
     public Call<Void> logout() {
-        Log.i(TAG, "logging out");
+        Log.i(TAG, "logout");
         return mWs.logout();
     }
 
+    public Call<List<User>> listUsers() {
+        Log.i(TAG, "listUsers");
+        return mWs.listUsers();
+    }
 }

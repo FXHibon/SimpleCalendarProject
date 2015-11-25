@@ -68,7 +68,7 @@ public class EventFormActivity extends AppCompatActivity {
         event.setAuthor(UUID.fromString(uuid));
         event.setParticipants(
                 Collections.singletonList(new Participant()
-                        .withId(uuid)
+                        .withId(UUID.fromString(uuid))
                         .withStatus(Participant.Status.PRESENT))
         );
 
