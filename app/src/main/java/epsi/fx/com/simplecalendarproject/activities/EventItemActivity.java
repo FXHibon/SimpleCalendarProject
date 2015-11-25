@@ -30,6 +30,7 @@ public class EventItemActivity extends AppCompatActivity {
     private TextView mAuthor;
     private TextView mDateInfo;
     private ListView mParticipantsList;
+    private TextView mDescription;
 
     private DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
 
@@ -52,6 +53,7 @@ public class EventItemActivity extends AppCompatActivity {
         mTitle = (TextView) findViewById(R.id.activity_event_item_title);
         mAuthor = (TextView) findViewById(R.id.activity_event_item_author);
         mDateInfo = (TextView) findViewById(R.id.activity_event_item_date_info);
+        mDescription = (TextView) findViewById(R.id.activity_event_item_description);
         mParticipantsList = (ListView) findViewById(R.id.activity_event_item_partipants_list);
 
         fetchEvent(eventId);
@@ -87,6 +89,8 @@ public class EventItemActivity extends AppCompatActivity {
         mTitle.setText(event.getTitle());
         mAuthor.setText(event.getAuthor().toString().substring(0, 4));
         mDateInfo.setText(String.format("%s %s %s %s", getString(R.string.event_item_details_from), event.getBegin().toString(mDateFormatter), getString(R.string.event_item_details_to), event.getEnd().toString(mDateFormatter)));
+        mDescription.setText(event.getDescription());
+
         ParticipantItemAdapter participantItemAdapter = new ParticipantItemAdapter(this, event.getParticipants());
         mParticipantsList.setAdapter(participantItemAdapter);
     }

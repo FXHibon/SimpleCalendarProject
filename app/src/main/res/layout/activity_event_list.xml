@@ -22,14 +22,6 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/event_list_refresh"
-            android:id="@+id/event_list_refresh_btn"
-            android:onClick="refreshData" />
-
-        <Button
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/event_list_disconnect"
             android:id="@+id/event_list_disconnect"

@@ -71,15 +71,6 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
         });
     }
 
-    /**
-     * listener for "refresh" button
-     *
-     * @param v Useless here
-     */
-    public void refreshData(View v) {
-        refreshData();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

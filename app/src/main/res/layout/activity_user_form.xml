@@ -45,14 +45,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/event_form_cancel_hint"
-            android:onClick="onClickCancel"
-            android:id="@+id/user_form_cancel" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             android:text="@string/event_form_ok_hint"
             android:onClick="onClickOk"
             android:id="@+id/user_form_ok" />

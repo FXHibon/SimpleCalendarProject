@@ -119,8 +119,4 @@ public class UserFormActivity extends AppCompatActivity {
 
 
     }
-
-    public void onClickCancel(View view) {
-        finish();
-    }
 }

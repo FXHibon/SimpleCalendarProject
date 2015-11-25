@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Simple Calendar</string>
-    <string name="event_detail_title">Titre</string>
+    <string name="event_detail_title">Title</string>
     <string name="event_details_description">Description</string>
     <string name="event_list_add">Add Event</string>
-    <string name="event_form_title_hint">Titre</string>
+    <string name="event_form_title_hint">Title</string>
     <string name="event_form_desc_hint">Description</string>
-    <string name="event_form_date_begin_hint">Date début</string>
-    <string name="event_form_date_end_hint">Date fin</string>
-    <string name="event_form_cancel_hint">Annuler</string>
+    <string name="event_form_date_begin_hint">Begin date</string>
+    <string name="event_form_date_end_hint">End date</string>
+    <string name="event_form_cancel_hint">Cancel</string>
     <string name="event_form_ok_hint">OK</string>
     <string name="event_list_refresh">Refresh</string>
     <string name="user_form_name">Name</string>
@@ -15,9 +15,10 @@
     <string name="user_form_password">Password</string>
     <string name="user_form_register">Register</string>
     <string name="event_list_disconnect">Disconnect</string>
-    <string name="event_item_details_from">"From "</string>
-    <string name="event_item_details_to">" to "</string>
-    <string name="activity_event_item_title_hint">titre</string>
+    <string name="event_item_details_from">From</string>
+    <string name="event_item_details_to">to</string>
+    <string name="activity_event_item_title_hint">title</string>
     <string name="activity_event_item_author_hint">author</string>
     <string name="activity_event_item_date_info_hint">date</string>
+    <string name="activity_event_item_description_hint">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte</string>
 </resources>
