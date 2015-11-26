@@ -13,10 +13,12 @@ import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.User;
+import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
 import epsi.fx.com.simplecalendarproject.ws.ApiClient;
 import retrofit.Callback;
 import retrofit.Response;
@@ -30,10 +32,14 @@ public class EventItemAdapter extends GenericAdapter<Event> {
     private final String TAG = EventItemAdapter.class.getName();
 
 
-    private DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
+    private static DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
+    private static UserDao mUserDao;
 
     public EventItemAdapter(Context context, List<Event> events) {
         super(context, events);
+        if (mUserDao == null) {
+            mUserDao = new UserDao(context);
+        }
     }
 
     @Override
@@ -42,12 +48,17 @@ public class EventItemAdapter extends GenericAdapter<Event> {
             convertView = View.inflate(mContext, R.layout.layout_event_list_item, null);
         }
 
+        Event event = getItem(position);
+
+        return buildView(convertView, event);
+
+    }
+
+    public static View buildView(View convertView, Event event) {
         TextView tvTitle = (TextView) convertView.findViewById(R.id.event_item_title);
         TextView tvDesc = (TextView) convertView.findViewById(R.id.event_item_desc);
         TextView tvDate = (TextView) convertView.findViewById(R.id.event_item_date);
         TextView tvAuthor = (TextView) convertView.findViewById(R.id.event_item_author);
-
-        Event event = getItem(position);
 
         if (event == null) {
             return null;
@@ -56,9 +67,12 @@ public class EventItemAdapter extends GenericAdapter<Event> {
         tvTitle.setText(event.getTitle());
         tvDesc.setText(event.getDescription());
         tvDate.setText(event.getBegin().toString(mDateFormatter));
-        String name = event.getAuthor().toString().substring(0, 4);
-        tvAuthor.setText(name);
-
+        tvAuthor.setText(findUserName(event.getAuthor()));
         return convertView;
+    }
+
+    public static String findUserName(UUID authorId) {
+        User userById = mUserDao.getUserById(authorId.toString());
+        return (userById == null) ? authorId.toString().substring(0, 4) : userById.getName();
     }
 }

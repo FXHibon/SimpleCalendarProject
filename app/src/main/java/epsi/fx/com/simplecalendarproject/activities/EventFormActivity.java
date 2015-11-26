@@ -73,7 +73,7 @@ public class EventFormActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
 
         // Id should have been given by the API
-        String uuid = prefs.getString(Common.USER_ID_KEY, "0049beeb-6412-4831-b08e-bb86609fbefe");
+        String uuid = prefs.getString(Common.USER_ID_KEY, "f6cd8549-2067-4f42-ad7c-bf1af50cad96");
         event.setAuthor(UUID.fromString(uuid));
         event.setParticipants(
                 Collections.singletonList(new Participant()

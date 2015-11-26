@@ -11,6 +11,8 @@ import java.util.List;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Participant;
 
+import static epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter.findUserName;
+
 /**
  * Created by fx on 25/11/15.
  */
@@ -36,7 +38,7 @@ public class ParticipantItemAdapter extends GenericAdapter<Participant> {
         TextView statusView = (TextView) convertView.findViewById(R.id.participant_item_status);
 
 
-        nameView.setText(item.getId().toString().substring(0, 4));
+        nameView.setText(findUserName(item.getId()));
         statusView.setText(item.getStatus().toString());
 
         return convertView;

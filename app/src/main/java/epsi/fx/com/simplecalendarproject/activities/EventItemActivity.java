@@ -21,6 +21,8 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+import static epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter.findUserName;
+
 public class EventItemActivity extends AppCompatActivity {
 
     private final String TAG = EventItemActivity.class.getName();
@@ -32,7 +34,7 @@ public class EventItemActivity extends AppCompatActivity {
     private ListView mParticipantsList;
     private TextView mDescription;
 
-    private DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
+    private DateTimeFormatter mDateFormatter = DateTimeFormat.shortDateTime().withLocale(Locale.FRANCE);
 
 
     @Override
@@ -65,12 +67,12 @@ public class EventItemActivity extends AppCompatActivity {
      * @param eventId Id to look for
      */
     private void fetchEvent(final String eventId) {
-        mApiClient.getEvent(eventId).enqueue(new Callback<List<Event>>() {
+        mApiClient.getEvent(eventId).enqueue(new Callback<Event>() {
 
             @Override
-            public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
+            public void onResponse(Response<Event> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    mEvent = response.body().get(0);
+                    mEvent = response.body();
                     fillTemplate(mEvent);
                 } else {
                     Log.e(TAG, String.format("error finding %s event", eventId));
@@ -91,7 +93,7 @@ public class EventItemActivity extends AppCompatActivity {
     private void fillTemplate(Event event) {
         Log.i(TAG, String.format("Filling for %s", event));
         mTitle.setText(event.getTitle());
-        mAuthor.setText(event.getAuthor().toString().substring(0, 4));
+        mAuthor.setText(findUserName(event.getAuthor()));
         mDateInfo.setText(String.format("%s %s %s %s", getString(R.string.event_item_details_from), event.getBegin().toString(mDateFormatter), getString(R.string.event_item_details_to), event.getEnd().toString(mDateFormatter)));
         mDescription.setText(event.getDescription());
 

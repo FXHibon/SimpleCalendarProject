@@ -101,7 +101,7 @@ public class ApiClient {
         return mWs.insertEvent(event);
     }
 
-    public Call<List<Event>> getEvent(String id) {
+    public Call<Event> getEvent(String id) {
         Log.i(TAG, "getEvent");
         return mWs.getEvent(id);
     }

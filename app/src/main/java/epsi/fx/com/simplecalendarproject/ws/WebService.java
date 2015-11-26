@@ -25,7 +25,7 @@ public interface WebService {
     Call<Void> insertEvent(@Body Event event);
 
     @GET("/meetings/{id}")
-    Call<List<Event>> getEvent(@Path("id") String id);
+    Call<Event> getEvent(@Path("id") String id);
 
     @POST("/users")
     Call<Void> register(@Body User u);

@@ -10,9 +10,12 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.List;
+
 import epsi.fx.com.simplecalendarproject.Common;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.User;
+import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
 import epsi.fx.com.simplecalendarproject.ws.ApiClient;
 import retrofit.Callback;
 import retrofit.Response;
@@ -27,6 +30,7 @@ public class UserFormActivity extends AppCompatActivity {
     private EditText mNameField;
     private EditText mEmailField;
     private EditText mPasswordField;
+    private UserDao mUserDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class UserFormActivity extends AppCompatActivity {
 
         // Init fields
         mClient = new ApiClient(this);
+        mUserDao = new UserDao(this);
+
         mRegisterSwitch = (Switch) findViewById(R.id.user_form_register);
         mNameField = (EditText) findViewById(R.id.user_form_name);
         mEmailField = (EditText) findViewById(R.id.user_form_email);
@@ -105,6 +111,7 @@ public class UserFormActivity extends AppCompatActivity {
                 Log.v(TAG, String.format("register.onResponse => %s", Integer.toString(response.code())));
                 if (!response.isSuccess()) {
                     Toast.makeText(UserFormActivity.this, "Can't register. Try another email", Toast.LENGTH_SHORT).show();
+                    saveUserToDb(user);
                 } else {
                     Toast.makeText(UserFormActivity.this, user.getEmail() + " registered", Toast.LENGTH_SHORT).show();
                 }
@@ -118,5 +125,28 @@ public class UserFormActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void saveUserToDb(final User user) {
+        mClient.listUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Response<List<User>> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    for (User u : response.body()) {
+                        if (u.getEmail().equals(user.getEmail())) {
+                            mUserDao.insertUser(u);
+                            break;
+                        }
+                    }
+                } else {
+                    Log.e(TAG, String.format("Can't get users list %d", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, String.format("Error while listing user: %s", t.getLocalizedMessage()));
+            }
+        });
     }
 }

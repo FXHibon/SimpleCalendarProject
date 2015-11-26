@@ -67,9 +67,10 @@ public class UserDao {
 
     public User getUserById(String id) {
         SQLiteDatabase db = mStorageHelper.getReadableDatabase();
-
+        Log.d(TAG, "getUserById" + id);
         Cursor c = db.rawQuery(String.format("SELECT * FROM %s WHERE %s = '%s'", StorageHelper.USER_TABLE_NAME, User.ID, id), null);
         User user = null;
+        Log.d(TAG, "count = " + c.getCount());
         if (c.getCount() == 1) {
             c.moveToFirst();
             user = parseUser(c);
@@ -83,7 +84,7 @@ public class UserDao {
         SQLiteDatabase db = mStorageHelper.getWritableDatabase();
         ContentValues valuesDb = new ContentValues();
 
-        if (update) {
+        if (update || user.getId() != null) {
             valuesDb.put(User.ID, user.getId().toString());
         } else {
             valuesDb.put(User.ID, UUID.randomUUID().toString());
@@ -107,5 +108,14 @@ public class UserDao {
 
     public String updateUser(User user) {
         return insertUser(user, true);
+    }
+
+    /**
+     * Remove ALL users from db
+     */
+    public void remove() {
+        SQLiteDatabase db = mStorageHelper.getWritableDatabase();
+        db.execSQL(String.format("DELETE FROM %s WHERE 1 = 1", StorageHelper.USER_TABLE_NAME));
+        db.close();
     }
 }
