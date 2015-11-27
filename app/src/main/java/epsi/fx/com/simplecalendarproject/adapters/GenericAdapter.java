@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by fx on 25/11/2015.
+ * A simple generic list adapter.
  */
 public abstract class GenericAdapter<T> extends BaseAdapter {
 
