@@ -16,6 +16,7 @@ import epsi.fx.com.simplecalendarproject.AppConfig;
 
 /**
  * Created by fx on 29/10/2015.
+ * Add cookie for each request
  */
 public class AddCookiesInterceptor implements Interceptor {
 

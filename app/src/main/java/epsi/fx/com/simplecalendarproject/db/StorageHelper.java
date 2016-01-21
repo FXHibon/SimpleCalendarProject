@@ -48,6 +48,13 @@ public class StorageHelper extends SQLiteOpenHelper {
         db.execSQL(PARTICIPATION_TABLE_CREATION);
     }
 
+    /**
+     * Reset dbs
+     *
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

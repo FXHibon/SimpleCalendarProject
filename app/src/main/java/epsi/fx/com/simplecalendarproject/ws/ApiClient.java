@@ -22,6 +22,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by fx on 29/10/2015.
+ * Build our client api
  */
 public class ApiClient {
 
@@ -42,6 +43,7 @@ public class ApiClient {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(AppConfig.API_END_POINT)
                     .addConverterFactory(
+                            // Handle Date (un)serialize
                             GsonConverterFactory
                                     .create(
                                             new GsonBuilder()

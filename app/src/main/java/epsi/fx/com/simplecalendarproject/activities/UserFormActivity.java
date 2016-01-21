@@ -50,6 +50,13 @@ public class UserFormActivity extends AppCompatActivity {
 
         setUpViews();
         mRegisterSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            /**
+             * show desc field for register mde
+             *
+             * @param buttonView
+             * @param isChecked
+             */
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {

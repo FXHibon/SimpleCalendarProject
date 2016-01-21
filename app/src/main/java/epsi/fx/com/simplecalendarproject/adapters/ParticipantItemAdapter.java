@@ -15,6 +15,7 @@ import static epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter.findUs
 
 /**
  * Created by fx on 25/11/15.
+ * Participant item adapter
  */
 public class ParticipantItemAdapter extends GenericAdapter<Participant> {
 
