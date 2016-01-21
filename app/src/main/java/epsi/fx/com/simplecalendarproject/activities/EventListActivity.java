@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter;
 import epsi.fx.com.simplecalendarproject.beans.Event;
@@ -22,6 +22,9 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+/**
+ * Event list related actions/views
+ */
 public class EventListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static final int EVENT_FORM_ACTIVITY_REQUEST_CODE = 1;
@@ -40,7 +43,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
 
         // Init fields
         this.mList = (ListView) findViewById(R.id.event_list_view);
-        this.mSharedPrefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
+        this.mSharedPrefs = getSharedPreferences(AppConfig.PREFS_SCOPE, Context.MODE_PRIVATE);
 
         mApiClient = new ApiClient(this);
     }
@@ -70,6 +73,13 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
         });
     }
 
+    /**
+     * Callback when another activity lead us to this one
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -84,17 +94,24 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    /**
+     * Listener to click event
+     * @param view
+     */
     public void onClickAddEvent(View view) {
         Intent intent = new Intent(EventListActivity.this, EventFormActivity.class);
         this.startActivityForResult(intent, EVENT_FORM_ACTIVITY_REQUEST_CODE);
     }
 
+    /**
+     * Check if user is authorize to be there
+     */
     @Override
     protected void onResume() {
         super.onResume();
 
-        Log.v(TAG, String.format("prefs.USER_EMAIL_KEY = %s", mSharedPrefs.getString(Common.USER_EMAIL_KEY, "")));
-        if (mSharedPrefs.getString(Common.USER_EMAIL_KEY, "").equals("")) {
+        Log.v(TAG, String.format("prefs.USER_EMAIL_KEY = %s", mSharedPrefs.getString(AppConfig.USER_EMAIL_KEY, "")));
+        if (mSharedPrefs.getString(AppConfig.USER_EMAIL_KEY, "").equals("")) {
             Intent intent = new Intent(this, UserFormActivity.class);
             startActivity(intent);
         } else {
@@ -102,6 +119,10 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    /**
+     * on click listener
+     * @param view
+     */
     public void onClickDisconnect(View view) {
         mApiClient.logout().enqueue(new Callback<Void>() {
 
@@ -120,8 +141,11 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    /**
+     * Disconnect locally
+     */
     private void localDisconnect() {
-        Log.v(TAG, String.format("Clearing %s prefs", Common.PREFS_SCOPE));
+        Log.v(TAG, String.format("Clearing %s prefs", AppConfig.PREFS_SCOPE));
         SharedPreferences.Editor edit = this.mSharedPrefs.edit();
         edit.clear();
         edit.apply();
@@ -129,6 +153,7 @@ public class EventListActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Listener for list item click
+     * Launch activity for view all event info
      *
      * @param parent
      * @param view

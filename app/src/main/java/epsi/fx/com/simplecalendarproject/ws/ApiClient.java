@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Login;
 import epsi.fx.com.simplecalendarproject.beans.User;
@@ -40,7 +40,7 @@ public class ApiClient {
 
             // Build API Client
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Common.API_END_POINT)
+                    .baseUrl(AppConfig.API_END_POINT)
                     .addConverterFactory(
                             GsonConverterFactory
                                     .create(

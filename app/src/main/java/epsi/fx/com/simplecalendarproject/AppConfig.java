@@ -2,8 +2,9 @@ package epsi.fx.com.simplecalendarproject;
 
 /**
  * Created by fx on 29/10/2015.
+ * Application configuration
  */
-public class Common {
+public class AppConfig {
 
     // SharedPreferences scope
     public static final String PREFS_SCOPE = "SimpleCalendarEpsi";

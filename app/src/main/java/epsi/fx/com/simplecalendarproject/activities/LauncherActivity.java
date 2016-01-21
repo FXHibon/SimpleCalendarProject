@@ -18,6 +18,11 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+/**
+ * Loader activity
+ * Use to init local db with API data, if possible
+ * Kind of "sync" but very very very very simple
+ */
 public class LauncherActivity extends AppCompatActivity {
 
     private static final String TAG = LauncherActivity.class.getName();
@@ -42,6 +47,7 @@ public class LauncherActivity extends AppCompatActivity {
                 if (response.isSuccess()) {
                     initData(response.body());
                 } else {
+                    Log.e(TAG, "onResponse: can't fetch data");
                     handleError();
                 }
 
@@ -49,6 +55,7 @@ public class LauncherActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Log.e(TAG, "onFailure", t);
                 handleError();
             }
         });
@@ -59,6 +66,12 @@ public class LauncherActivity extends AppCompatActivity {
         Toast.makeText(LauncherActivity.this, R.string.activity_launcher_api_error, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Fill User table with API data
+     * Difference between server data and local data are tested with ... data size (not OK)
+     *
+     * @param users
+     */
     private void initData(List<User> users) {
         mProgressBar.setIndeterminate(false);
         int localSize = mUserDao.getUsers().size();
@@ -71,6 +84,7 @@ public class LauncherActivity extends AppCompatActivity {
             }
         }
 
+        // Go to list activity
         Intent intent = new Intent(LauncherActivity.this, EventListActivity.class);
         startActivity(intent);
     }

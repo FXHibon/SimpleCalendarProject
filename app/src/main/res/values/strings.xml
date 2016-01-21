@@ -23,4 +23,5 @@
     <string name="activity_event_item_description_hint">Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte</string>
     <string name="activity_launcher_title">Loading application data</string>
     <string name="activity_launcher_api_error">Unable to contact API</string>
+    <string name="user_form_description">Description</string>
 </resources>

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 
 /**
  * Created by fx on 29/10/2015.
@@ -32,8 +32,8 @@ public class AddCookiesInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
 
-        SharedPreferences prefs = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
-        Set<String> preferences = prefs.getStringSet(Common.COOKIES_KEY, new HashSet<String>());
+        SharedPreferences prefs = mContext.getSharedPreferences(AppConfig.PREFS_SCOPE, Context.MODE_PRIVATE);
+        Set<String> preferences = prefs.getStringSet(AppConfig.COOKIES_KEY, new HashSet<String>());
         for (String cookie : preferences) {
             builder.addHeader(COOKIE_HEADER_NAME, cookie);
             Log.v(TAG, String.format("Adding header %s", cookie));

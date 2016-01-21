@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Participant;
 import epsi.fx.com.simplecalendarproject.beans.User;
@@ -54,10 +54,10 @@ public class StorageHelper extends SQLiteOpenHelper {
         Log.v(TAG, String.format("onUpgrade(oldVersion: %d, newVersion: %d)", oldVersion, newVersion));
         Log.v(TAG, "resetting db and shared prefs");
 
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(AppConfig.PREFS_SCOPE, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.remove(Common.USER_ID_KEY);
-        edit.remove(Common.USER_EMAIL_KEY);
+        edit.remove(AppConfig.USER_ID_KEY);
+        edit.remove(AppConfig.USER_EMAIL_KEY);
         edit.apply();
 
         db.execSQL(String.format("DROP TABLE IF EXISTS %s", PARTICIPATION_TABLE_NAME));

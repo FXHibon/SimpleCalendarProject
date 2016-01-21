@@ -29,7 +29,7 @@ import retrofit.Retrofit;
  */
 public class EventItemAdapter extends GenericAdapter<Event> {
 
-    private final String TAG = EventItemAdapter.class.getName();
+    private static final String TAG = EventItemAdapter.class.getName();
 
 
     private static DateTimeFormatter mDateFormatter = DateTimeFormat.mediumDateTime().withLocale(Locale.FRANCE);
@@ -37,6 +37,7 @@ public class EventItemAdapter extends GenericAdapter<Event> {
 
     public EventItemAdapter(Context context, List<Event> events) {
         super(context, events);
+        Log.d(TAG, "EventItemAdapter() called with: " + "context = [" + context + "], events = [" + events + "]");
         if (mUserDao == null) {
             mUserDao = new UserDao(context);
         }
@@ -55,6 +56,7 @@ public class EventItemAdapter extends GenericAdapter<Event> {
     }
 
     public static View buildView(View convertView, Event event) {
+        Log.d(TAG, "buildView() called with: " + "convertView = [" + convertView + "], event = [" + event + "]");
         TextView tvTitle = (TextView) convertView.findViewById(R.id.event_item_title);
         TextView tvDesc = (TextView) convertView.findViewById(R.id.event_item_desc);
         TextView tvDate = (TextView) convertView.findViewById(R.id.event_item_date);

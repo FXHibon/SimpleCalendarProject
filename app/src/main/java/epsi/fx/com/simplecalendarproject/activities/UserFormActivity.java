@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.List;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.User;
 import epsi.fx.com.simplecalendarproject.beans.dao.UserDao;
@@ -21,6 +22,9 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+/**
+ * User related actions/views
+ */
 public class UserFormActivity extends AppCompatActivity {
 
     private static final String TAG = UserFormActivity.class.getName();
@@ -31,6 +35,7 @@ public class UserFormActivity extends AppCompatActivity {
     private EditText mEmailField;
     private EditText mPasswordField;
     private UserDao mUserDao;
+    private EditText mDescriptionField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,32 @@ public class UserFormActivity extends AppCompatActivity {
         mClient = new ApiClient(this);
         mUserDao = new UserDao(this);
 
+        setUpViews();
+        mRegisterSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mDescriptionField.setVisibility(View.VISIBLE);
+                } else {
+                    mDescriptionField.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+    private void setUpViews() {
         mRegisterSwitch = (Switch) findViewById(R.id.user_form_register);
         mNameField = (EditText) findViewById(R.id.user_form_name);
         mEmailField = (EditText) findViewById(R.id.user_form_email);
         mPasswordField = (EditText) findViewById(R.id.user_form_password);
+        mDescriptionField = (EditText) findViewById(R.id.user_form_desc);
     }
 
+    /**
+     * Listener
+     *
+     * @param view
+     */
     public void onClickOk(View view) {
         if (mRegisterSwitch.isChecked()) {
             saveUser();
@@ -58,7 +83,7 @@ public class UserFormActivity extends AppCompatActivity {
     }
 
     /**
-     * Try to login using fields
+     * Try to login using fields values
      */
     private void loginUser() {
 
@@ -72,8 +97,8 @@ public class UserFormActivity extends AppCompatActivity {
             public void onResponse(Response<Void> response, Retrofit retrofit) {
                 Log.v(TAG, Integer.toString(response.code()));
                 if (response.isSuccess()) {
-                    SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
-                    simpleCalendar.putString(Common.USER_EMAIL_KEY, user.getEmail());
+                    SharedPreferences.Editor simpleCalendar = UserFormActivity.this.getSharedPreferences(AppConfig.PREFS_SCOPE, Context.MODE_PRIVATE).edit();
+                    simpleCalendar.putString(AppConfig.USER_EMAIL_KEY, user.getEmail());
                     if (simpleCalendar.commit()) {
                         Log.v(TAG, String.format("Authentication succeed: %s", user));
                         finish();
@@ -89,7 +114,7 @@ public class UserFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(UserFormActivity.this, "Unexpected error", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, t.getMessage());
+                Log.d(TAG, "login failure", t);
             }
         });
     }
@@ -103,7 +128,7 @@ public class UserFormActivity extends AppCompatActivity {
         user.setEmail(mEmailField.getText().toString());
         user.setName(mNameField.getText().toString());
         user.setPassword(mPasswordField.getText().toString());
-        user.setDescription("ma description");
+        user.setDescription(mDescriptionField.getText().toString());
 
         mClient.register(user).enqueue(new Callback<Void>() {
             @Override

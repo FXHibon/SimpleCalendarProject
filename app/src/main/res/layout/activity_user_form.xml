@@ -35,6 +35,15 @@
         android:text="fx1"
         android:id="@+id/user_form_password" />
 
+    <EditText
+        android:id="@+id/user_form_desc"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:inputType="text"
+        android:hint="@string/user_form_description" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

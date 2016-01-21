@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.List;
 import java.util.Locale;
 
 import epsi.fx.com.simplecalendarproject.R;
@@ -23,6 +22,9 @@ import retrofit.Retrofit;
 
 import static epsi.fx.com.simplecalendarproject.adapters.EventItemAdapter.findUserName;
 
+/**
+ * Activity for diplay all pieces of information of an event
+ */
 public class EventItemActivity extends AppCompatActivity {
 
     private final String TAG = EventItemActivity.class.getName();
@@ -42,6 +44,7 @@ public class EventItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_item);
 
+        // Retrieve activity param
         Intent intent = getIntent();
         final String eventId = intent.getStringExtra(EventListActivity.EXTRA_EVENT_ID);
 
@@ -62,7 +65,7 @@ public class EventItemActivity extends AppCompatActivity {
     }
 
     /**
-     * Get even from the API, given the id
+     * Get event from the API, given the id
      *
      * @param eventId Id to look for
      */
@@ -73,7 +76,7 @@ public class EventItemActivity extends AppCompatActivity {
             public void onResponse(Response<Event> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     mEvent = response.body();
-                    fillTemplate(mEvent);
+                    bindEventToView(mEvent);
                 } else {
                     Log.e(TAG, String.format("error finding %s event", eventId));
                 }
@@ -81,7 +84,7 @@ public class EventItemActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d(TAG, String.format("Failure when getting event: %s", t.getLocalizedMessage()));
+                Log.e(TAG, String.format("Failure when getting event: %s", t));
             }
         });
     }
@@ -90,8 +93,8 @@ public class EventItemActivity extends AppCompatActivity {
      * Fill template with event data
      * @param event Event to fill data from
      */
-    private void fillTemplate(Event event) {
-        Log.i(TAG, String.format("Filling for %s", event));
+    private void bindEventToView(Event event) {
+        Log.i(TAG, String.format("Binding for %s", event));
         mTitle.setText(event.getTitle());
         mAuthor.setText(findUserName(event.getAuthor()));
         mDateInfo.setText(String.format("%s %s %s %s", getString(R.string.event_item_details_from), event.getBegin().toString(mDateFormatter), getString(R.string.event_item_details_to), event.getEnd().toString(mDateFormatter)));

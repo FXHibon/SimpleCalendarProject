@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 import java.util.Collections;
 import java.util.UUID;
 
-import epsi.fx.com.simplecalendarproject.Common;
+import epsi.fx.com.simplecalendarproject.AppConfig;
 import epsi.fx.com.simplecalendarproject.R;
 import epsi.fx.com.simplecalendarproject.beans.Event;
 import epsi.fx.com.simplecalendarproject.beans.Participant;
@@ -24,6 +24,9 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+/**
+ * Handle event-form related action
+ */
 public class EventFormActivity extends AppCompatActivity {
 
     public static final String TAG = EventFormActivity.class.getName();
@@ -48,6 +51,13 @@ public class EventFormActivity extends AppCompatActivity {
 
         mApiClient = new ApiClient(this);
 
+        setUpViews();
+    }
+
+    /**
+     * Init view fields
+     */
+    private void setUpViews() {
         mTitle = (TextView) findViewById(R.id.activity_event_form_title);
         mDesc = (TextView) findViewById(R.id.activity_event_form_desc);
         mDateBegin = (TextView) findViewById(R.id.activity_event_form_date_begin);
@@ -65,15 +75,14 @@ public class EventFormActivity extends AppCompatActivity {
 
         event.setTitle(mTitle.getText().toString());
         event.setDescription(mDesc.getText().toString());
+
         event.setBegin(DateTime.now());
-        event.setEnd(DateTime.now());
-//        event.setBegin(dateBegin.getText().toString());
-//        event.setEnd(dateEnd.getText().toString());
+        event.setEnd(DateTime.now().plusHours(2));
 
-        SharedPreferences prefs = getSharedPreferences(Common.PREFS_SCOPE, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(AppConfig.PREFS_SCOPE, Context.MODE_PRIVATE);
 
-        // Id should have been given by the API
-        String uuid = prefs.getString(Common.USER_ID_KEY, "f6cd8549-2067-4f42-ad7c-bf1af50cad96");
+        // It should have been given by the API, I guess
+        String uuid = prefs.getString(AppConfig.USER_ID_KEY, "74fcf467-dc27-4942-8b56-8609ba3c603a");
         event.setAuthor(UUID.fromString(uuid));
         event.setParticipants(
                 Collections.singletonList(new Participant()
@@ -104,6 +113,11 @@ public class EventFormActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Go back to last activity
+     *
+     * @param view
+     */
     public void onClickCancel(View view) {
         Intent intent = new Intent();
         setResult(EventFormActivity.RESULT_CANCELED, intent);
